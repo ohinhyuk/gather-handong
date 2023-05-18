@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "430558202405",
+    "project_id": "moapp-final-project-154b3",
+    "storage_bucket": "moapp-final-project-154b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430558202405:android:102b22c5fa32c3da0ecdcc",
+        "android_client_info": {
+          "package_name": "com.example.gather_handong"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430558202405-g67gmo4kc3t7f19njmoti12kc8juqc3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF7c0PjUm3yTEs2QbThMev0lHz9nvq2jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430558202405-fn26t0mplqg25f3udepf2a25j1gbmdb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
