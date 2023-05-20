@@ -48,56 +48,99 @@ class HomePage extends StatelessWidget {
           child: Stack(
             children: [
               appState.checkIsProduct(product)
-                  ? Row(
+                  ? Padding(padding: EdgeInsets.all(16) , child:
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Icon(Icons.check_circle),
+                        const Icon(Icons.favorite_border_outlined),
                       ],
                     )
-                  : Row(),
+                ,) : Row(),
               Column(
                 // TODO: Center items on the card (103)
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 50 / 11,
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
+
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
                         // TODO: Align labels to the bottom and center (103)
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // TODO: Change innermost Column (103)
                         children: <Widget>[
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50.0),
+                                child: Image.network(
+                                  product.imageUrl,
+                                  fit: BoxFit.fitWidth,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              ),
+                              
+Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
+
+  children: [
+    Text(
+      product.name,
+      style: theme.textTheme.titleLarge,
+      maxLines: 1,
+    ),
+
+    Text(
+      formatter.format(product.price),
+      style: theme.textTheme.titleSmall,
+    ),
+
+  ],
+
+)
+  ,)
+
+                            ],
+                          ),
                           // TODO: Handle overflowing labels (103)
+
+
+
+                        //descrition
                           Text(
-                            product.name,
+                            product.description,
                             style: theme.textTheme.titleLarge,
-                            maxLines: 1,
+                            maxLines: 2,
                           ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            formatter.format(product.price),
-                            style: theme.textTheme.titleSmall,
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailPage(product))),
+                                  child: const Text('more'))
+                            ],
                           ),
+
                         ],
+
+
                       ),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailPage(product))),
-                      child: const Text('more'))
+
+
+
                 ],
+
+
               ),
+
             ],
+
           ));
     }).toList();
   }
@@ -190,9 +233,9 @@ class HomePage extends StatelessWidget {
         const DropdownButtonExample(),
         Expanded(
             child: GridView.count(
-                crossAxisCount: 2,
-                padding: const EdgeInsets.all(16.0),
-                childAspectRatio: 8.0 / 9.0,
+                crossAxisCount: 1,
+                padding: const EdgeInsets.all(20.0),
+                childAspectRatio: 10.0 / 6.3,
                 children: _buildGridCards(context, products)))
       ],
     );
