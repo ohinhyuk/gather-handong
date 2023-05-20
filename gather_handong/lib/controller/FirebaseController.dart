@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gather_handong/model/myUser.dart';
 import 'package:gather_handong/model/product.dart';
 import 'package:gather_handong/model/user.dart';
 
@@ -20,6 +21,11 @@ class FirebaseController {
   // static get collectionUser => FirebaseFirestore.instance.collection('users');
   static void userAdd(UserDB user) => FirebaseFirestore.instance
       .collection('users')
+      .doc(user.uid)
+      .set(user.toJson());
+
+  static void myUserAdd(myUser user) => FirebaseFirestore.instance
+      .collection('myUsers')
       .doc(user.uid)
       .set(user.toJson());
 }

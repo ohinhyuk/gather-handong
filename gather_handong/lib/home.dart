@@ -43,6 +43,7 @@ class HomePage extends StatelessWidget {
 
     return products.map((product) {
       return Card(
+          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           clipBehavior: Clip.antiAlias,
           // TODO: Adjust card heights (103)
           child: Stack(
@@ -86,7 +87,7 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
   children: [
     Text(
       product.name,
-      style: theme.textTheme.titleLarge,
+      style: theme.textTheme.titleMedium,
       maxLines: 1,
     ),
 
@@ -109,7 +110,7 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
                         //descrition
                           Text(
                             product.description,
-                            style: theme.textTheme.titleLarge,
+                            style: theme.textTheme.titleMedium,
                             maxLines: 2,
                           ),
 
@@ -235,16 +236,10 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
             child: GridView.count(
                 crossAxisCount: 1,
                 padding: const EdgeInsets.all(20.0),
-                childAspectRatio: 10.0 / 6.3,
+                childAspectRatio: 10.0 / 7.1,
                 children: _buildGridCards(context, products)))
       ],
     );
-    // /   GridView.count(
-    //   crossAxisCount: 2,
-    //   padding: const EdgeInsets.all(16.0),
-    //   childAspectRatio: 8.0 / 9.0,
-    //   children: _buildGridCards(context,products),
-    // );
   }
 }
 
