@@ -24,17 +24,25 @@ class _SignUpPage extends State<SignUpPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+        backgroundColor : Color.fromRGBO(248, 209, 209, 1),
       appBar: AppBar(
         leading: IconButton( icon: Icon(Icons.arrow_back), onPressed: () { Navigator.pop(context); },),
         title: Text('SignUp'),
       ),
       body:Padding(
+
         padding: EdgeInsets.only(left: 30 , right: 30, top: 50, bottom: 50),
-        child: ListView(
-        children: [
-          Image.asset('assets/images/logo_gather_handong.png'),
-        ],
-      ),
+        child: Container(
+            color: Colors.white,
+          child: ListView(
+
+
+          children: [
+            Image.asset('assets/images/logo_gather_handong.png'),
+          ],
+        ),
+        )
+
       )
 
     );

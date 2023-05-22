@@ -28,7 +28,9 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
+  assets:
+    - assets/images/logo_gather_handong.png
+
   uses-material-design: true
 
-assets:
-  - assets/images/
+

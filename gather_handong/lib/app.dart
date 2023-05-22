@@ -14,6 +14,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/signup.dart';
+import 'package:gather_handong/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'home.dart';
@@ -33,15 +35,35 @@ class App extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (BuildContext context) =>
-            appState.loggedIn ? const HomePage() : const LoginPage(),
+            appState.loggedIn ? const SignUpPage() : const LoginPage(),
         // TODO: Change to a Backdrop with a HomePage frontLayer (104)
         '/': (BuildContext context) => const HomePage(),
+        '/signup' : (BuildContext context) => const SignUpPage(),
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)
       },
       // TODO: Customize the theme (103)
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(fontSize: 15 , fontWeight: FontWeight.w400),
+            titleSmall: TextStyle(fontSize: 13 , fontWeight: FontWeight.normal),
+        )
+      ),
+      // apply dark mode theme
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(fontSize: 15 , fontWeight: FontWeight.w400),
+            titleSmall: TextStyle(fontSize: 13 , fontWeight: FontWeight.normal),
+          )
+      ),
+
     );
   }
 }
