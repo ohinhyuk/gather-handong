@@ -18,6 +18,14 @@ const Map<String, List<String>> aboutMeList = {
   'Priority' : ['일' , '학업' , '건강' , '연애' , '가족' , '취미' , '휴식' , '자기 개발']
 };
 
+const Map<String , List<String>> lifeStyleList = {
+  'Drink' : ['아예 안마심', '가끔 마심', '자주 마심', '매일 마심', '혼술할 정도로 좋아하는 편' , '친구들 만날 때만 마시는 편' , '현재 금주 중' ],
+  'Smoke' : ['비흡연' , '흡연' , '금연 중'],
+  'WorkOut' : ['매일' , '자주' , '가끔' , '안함'],
+  'SNS' : [ '인플루언서' , '자주 활동함' , '가끔 활동함' , '눈팅족' , '안함'],
+  'Sleep' : ['아침형 인간' , '야행성' , '때에 따라 다름'],
+};
+
 
 const List<Widget> fruits = <Widget>[
   Text('남자'),
@@ -36,12 +44,13 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPage extends State<SignUpPage> {
 
   List<String> myInterest = [];
-  List<String> myMBTI = [];
-  List<String> myEducation = [];
-  List<String> myReligion = [];
-  List<String> myContact = [];
-  List<String> myLoveLanguage = [];
-  List<String> myPriority = [];
+  List<String> myAboutMe = [];
+  List<String> myLifeStyle = [];
+  // List<String> myEducation = [];
+  // List<String> myReligion = [];
+  // List<String> myContact = [];
+  // List<String> myLoveLanguage = [];
+  // List<String> myPriority = [];
 
   final _nicknameController = TextEditingController();
   final _ageController = TextEditingController();
@@ -68,29 +77,27 @@ class _SignUpPage extends State<SignUpPage> {
         title: Text('회원 가입' , style: Theme.of(context).textTheme.titleLarge,),
       ),
       body:Padding(
-
         padding: EdgeInsets.only(left: 30 , right: 30, top: 50, bottom: 50),
         child: Container(
           width: double.infinity,
-          // decoration: BoxDecoration(
-          //   color: Colors.blue,
-          //   borderRadius: BorderRadius.circular(20.0), // 모서리 반지름 설정
-          // ),
             color: Colors.white,
-          // child: Expanded(
-
             child: ListView(
               shrinkWrap: true,
               physics: AlwaysScrollableScrollPhysics(),
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset('assets/images/logo_gather_handong.png'),
-                Text(
-                  '! 신중하게 작성해주세요 !',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
+
+                Image.asset('assets/images/logo_gather_handong.png',
+
+                    height: 100,),
+                Padding(padding: EdgeInsets.only(left: 20),
+                child: Text(
+                    '! 신중하게 작성해주세요 !',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),),
+
 
           Padding(padding: EdgeInsets.all(20),
             child: TextField(
@@ -155,30 +162,52 @@ class _SignUpPage extends State<SignUpPage> {
                   Divider(thickness: 2 , height: 1 , color: Theme.of(context).colorScheme.primaryContainer ),
                 ),
 
-                Center(child: Text('나의 관심사를 골라주세요' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),),),
+
+                BigTitle('나의 관심사를 골라주세요😀'),
+                // Center(child: Text('나의 관심사를 골라주세요' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                //   color: Theme.of(context).colorScheme.onBackground,
+                // ),),),
                 OptionGrid(interestList , ' ' , 6 , myInterest),
 
                 Padding(padding: EdgeInsets.all(20) ,child :
                 Divider(thickness: 2 , height: 1 , color: Theme.of(context).colorScheme.primaryContainer ),
                 ),
 
-                Center(child: Text('나를 잘 나타내는 정보를 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),),),
+                BigTitle('나를 잘 나타내는 정보를 추가해주세요😀'),
+                // Center(child: Text('나를 잘 나타내는 정보를 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                //   color: Theme.of(context).colorScheme.onBackground,
+                // ),),),
 
-                OptionGrid(aboutMeList['MBTI']!, 'MBTI가 무엇인가요?' , 6 , myMBTI),
-                OptionGrid(aboutMeList['Education']!, '학력이 궁금해요!' , 6 , myEducation),
-                OptionGrid(aboutMeList['Religion']! , '종교를 가지고 계시나요?',6 , myReligion),
-                OptionGrid(aboutMeList['ContactType']!, '연락 스타일이 어떻게 되시나요?' , 3 , myContact),
-                OptionGrid(aboutMeList['loveLanguage']!, '어떨때 상대방에게 매력을 느끼시나요?' , 5, myLoveLanguage),
-                OptionGrid(aboutMeList['Priority']!, '당신의 우선 순위는?' , 4, myPriority),
-
+                OptionGrid(aboutMeList['MBTI']!, 'MBTI가 무엇인가요?' , 6 , myAboutMe),
+                OptionGrid(aboutMeList['Education']!, '학력이 궁금해요!' , 6 , myAboutMe),
+                OptionGrid(aboutMeList['Religion']! , '종교를 가지고 계시나요?',6 , myAboutMe),
+                OptionGrid(aboutMeList['ContactType']!, '연락 스타일이 어떻게 되시나요?' , 3 , myAboutMe),
+                OptionGrid(aboutMeList['loveLanguage']!, '어떨때 상대방에게 매력을 느끼시나요?' , 5, myAboutMe),
+                OptionGrid(aboutMeList['Priority']!, '당신의 우선 순위는?' , 4, myAboutMe),
 
                 Padding(padding: EdgeInsets.all(20) ,child :
                 Divider(thickness: 2 , height: 1 , color: Theme.of(context).colorScheme.primaryContainer ),
                 ),
+
+                // LifeStyle
+                BigTitle('나의 라이프 스타일을 추가해주세요😀'),
+
+                OptionGrid(lifeStyleList['Drink']!, '음주는 얼마나 하시나요?' , 6 , myLifeStyle),
+                OptionGrid(lifeStyleList['Smoke']!, '흡연 여부가 궁금해요!' , 6 , myLifeStyle),
+                OptionGrid(lifeStyleList['WorkOut']! , '운동 하시나요?',6 , myLifeStyle),
+                OptionGrid(lifeStyleList['SNS']!, 'SNS를 하시는 빈도는?' , 3 , myLifeStyle),
+                OptionGrid(lifeStyleList['Sleep']!, '수면 패턴이 어떻게 되세요?' , 5, myLifeStyle),
+
+                // Center(child: Text('나의 라이프 스타일을 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                //   color: Theme.of(context).colorScheme.onBackground,
+                // ),),),
+
+
+
+
+
+
+
 
                 // Center(child: Text('' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 //   color: Theme.of(context).colorScheme.onBackground,
@@ -276,4 +305,22 @@ class _OptionGrid extends State<OptionGrid> {
 
 
   }
+}
+
+class BigTitle extends StatelessWidget{
+
+  var title = "";
+  BigTitle( this.title, {Key? key}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return  Center(child: Text(title , style: Theme.of(context).textTheme.titleLarge?.copyWith(
+      color: Theme.of(context).colorScheme.onBackground,
+    ),),);
+    // 나의 라이프 스타일을 추가해주세요😀
+
+  }
+
 }
