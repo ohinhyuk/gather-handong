@@ -24,6 +24,12 @@ class FirebaseController {
       .doc(user.uid)
       .set(user.toJson());
 
+  static get collectionUser => FirebaseFirestore.instance.collection('myUsers');
+  static get orderedUser =>
+      collectionUser.orderBy('nickname', descending: true);
+  static get getUser => orderedUser.get();
+  static get snapshotUsers => orderedUser.snapshots();
+
   static void myUserAdd(myUser user) => FirebaseFirestore.instance
       .collection('myUsers')
       .doc(user.uid)

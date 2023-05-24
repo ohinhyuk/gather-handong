@@ -1,4 +1,3 @@
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -12,7 +11,6 @@ import 'package:image_picker/image_picker.dart';
 import 'model/product.dart';
 
 class ModifyPage extends StatefulWidget {
-
   const ModifyPage(this.product, {Key? key}) : super(key: key);
 
   final Product product;
@@ -22,17 +20,15 @@ class ModifyPage extends StatefulWidget {
 }
 
 class _ModifyPage extends State<ModifyPage> {
-
-
-
   final firebaseRef = FirebaseStorage.instance.ref();
 
   var uploadImageUrl = 'https://handong.edu/site/handong/res/img/logo.png';
+
   // _pickedFile;
   // _selectedImage = "";
   // final ImagePicker picker = ImagePicker();
 
-  void _pickImage() async{
+  void _pickImage() async {
     final ImagePicker picker = ImagePicker();
     // // Pick an image.
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -43,7 +39,7 @@ class _ModifyPage extends State<ModifyPage> {
     //     _selectedImage = image.path;
     //   });
 
-    if(image?.path == null) return null;
+    if (image?.path == null) return null;
 
     final ref = firebaseRef.child('product_image').child(image!.name);
 
@@ -55,49 +51,55 @@ class _ModifyPage extends State<ModifyPage> {
     //
     // print(ref.getDownloadURL());
     setState(() {
-      ref.getDownloadURL().then((value) => {
-        uploadImageUrl = value
-      });
+      ref.getDownloadURL().then((value) => {uploadImageUrl = value});
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     final _nameController = TextEditingController(text: widget.product.name);
-    final _priceController = TextEditingController(text: widget.product.price.toString());
-    final _descriptionController = TextEditingController(text: widget.product.description);
-
+    final _priceController =
+        TextEditingController(text: widget.product.price.toString());
+    final _descriptionController =
+        TextEditingController(text: widget.product.description);
 
     return Scaffold(
         appBar: AppBar(
-          leading: TextButton(child: const Text('Cancel') , onPressed: () => Navigator.pop(context),),
+          leading: TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: const Text('Edit'),
           actions: [
-            TextButton(onPressed: () => {
-              FirebaseController.add(Product(name: _nameController.text , price: int.parse(_priceController.text) , description: _descriptionController.text , imageUrl : uploadImageUrl , likeUsers: [])),
-            }, child: const Text('Save'))
+            TextButton(
+                onPressed: () => {
+                      FirebaseController.add(Product(
+                          name: _nameController.text,
+                          price: int.parse(_priceController.text),
+                          description: _descriptionController.text,
+                          imageUrl: uploadImageUrl,
+                          likeUsers: [])),
+                    },
+                child: const Text('Save'))
           ],
         ),
         body: ListView(
           children: [
-            Image.network(
-                uploadImageUrl
-            )
-            ,
+            Image.network(uploadImageUrl),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(onPressed: () => _pickImage()
+                IconButton(
+                    onPressed: () => _pickImage()
 
                     // final ImagePicker picker = ImagePicker();
                     // print(ImagePicker().pickImage(source: ImageSource.gallery)),
-                    , icon: const Icon(Icons.camera_alt))
+                    ,
+                    icon: const Icon(Icons.camera_alt))
               ],
             ),
-            Padding(padding: const EdgeInsets.all(50),
+            Padding(
+              padding: const EdgeInsets.all(50),
               child: Column(
                 children: [
                   TextField(
@@ -106,7 +108,6 @@ class _ModifyPage extends State<ModifyPage> {
                       filled: true,
                       labelText: 'Product Name',
                     ),
-
                   ),
                   TextField(
                     controller: _priceController,
@@ -126,8 +127,6 @@ class _ModifyPage extends State<ModifyPage> {
               ),
             )
           ],
-        )
-    );
+        ));
   }
-
 }

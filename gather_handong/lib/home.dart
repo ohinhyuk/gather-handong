@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:gather_handong/add.dart';
 import 'package:gather_handong/detail.dart';
 import 'package:gather_handong/main.dart';
+import 'package:gather_handong/model/myUser.dart';
 import 'package:gather_handong/profile.dart';
 import 'package:gather_handong/wishlist.dart';
 import 'package:intl/intl.dart';
@@ -29,11 +30,10 @@ import 'model/products_repository.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  List<Card> _buildGridCards(BuildContext context, List<Product> products) {
-    // List<Product> products =
-    var appState = context.watch<ApplicationState>();
+  List<Card> _buildGridCards(BuildContext context, List<myUser> myUsers) {
+    // var appState = context.watch<ApplicationState>();
 
-    if (products.isEmpty) {
+    if (myUsers.isEmpty) {
       return const <Card>[];
     }
 
@@ -41,107 +41,123 @@ class HomePage extends StatelessWidget {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString());
 
-    return products.map((product) {
+    return myUsers.map((user) {
       return Card(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           clipBehavior: Clip.antiAlias,
           // TODO: Adjust card heights (103)
           child: Stack(
             children: [
-              appState.checkIsProduct(product)
-                  ? Padding(padding: EdgeInsets.all(16) , child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Icon(Icons.favorite_border_outlined),
-                      ],
+              // appState.checkIsProduct(user)
+              user.likes.contains(FirebaseAuth.instance.currentUser?.uid)
+                  ? Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(Icons.favorite_border_outlined),
+                        ],
+                      ),
                     )
-                ,) : Row(),
+                  : Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(Icons.favorite_border_outlined),
+                        ],
+                      ),
+                    ),
               Column(
                 // TODO: Center items on the card (103)
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         // TODO: Align labels to the bottom and center (103)
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // TODO: Change innermost Column (103)
                         children: <Widget>[
                           Row(
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(50.0),
+                                // borderRadius: BorderRadius.circular(50.0),
                                 child: Image.network(
-                                  product.imageUrl,
+                                  user.profileImages[0],
                                   fit: BoxFit.fitWidth,
                                   width: 100,
                                   height: 100,
                                 ),
                               ),
-                              
-Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
-
-  children: [
-    Text(
-      product.name,
-      style: theme.textTheme.titleMedium,
-      maxLines: 1,
-    ),
-
-    Text(
-      formatter.format(product.price),
-      style: theme.textTheme.titleSmall,
-    ),
-
-  ],
-
-)
-  ,)
-
+                              Padding(
+                                padding: EdgeInsets.only(left: 16, right: 16),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      user.nickname,
+                                      style: theme.textTheme.titleMedium,
+                                      maxLines: 1,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      user.age.toString(),
+                                      style: theme.textTheme.titleMedium,
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                           // TODO: Handle overflowing labels (103)
 
-
-
-                        //descrition
-                          Text(
-                            product.description,
-                            style: theme.textTheme.titleMedium,
-                            maxLines: 2,
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                  onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(product))),
-                                  child: const Text('more'))
-                            ],
-                          ),
-
+                          //descrition
+                          GridView.count(
+                              padding: EdgeInsets.all(0),
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: 4 / 2,
+                              crossAxisCount: 4,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: user.interest.map((elem) {
+                                return FilledButton(
+                                  onPressed: null,
+                                  child: Text(elem),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.only(
+                                      right: 0,
+                                    ),
+                                  ),
+                                );
+                              }).toList()),
+                          // Text(
+                          // user.location,
+                          // style: theme.textTheme.titleMedium,
+                          // maxLines: 2,
+                          // ),
                         ],
-
-
                       ),
                     ),
                   ),
-
-
-
                 ],
-
-
               ),
-
+              Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: TextButton(
+                      onPressed: () => {},
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             DetailPage(user)
+                      //
+                      //     )),
+                      child: const Text('more'))),
             ],
-
           ));
     }).toList();
   }
@@ -156,8 +172,9 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
     // void ordered() => collection.orderBy('price', descending: appState.sorting =='ASC' ? false : true);
     // void  get() => ordered.get();
     snapshots() => FirebaseFirestore.instance
-        .collection('products')
-        .orderBy('price', descending: appState.sorting == 'ASC' ? false : true)
+        .collection('myUsers')
+        .orderBy('nickname',
+            descending: appState.sorting == 'ASC' ? false : true)
         .snapshots();
 
     /// static methods
@@ -222,11 +239,10 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
     print(snapshot.data);
     if (snapshot.data == null) return const Scaffold();
 
-    List<Product> products = snapshot.data?.docs.map<Product>((data) {
-          Product product =
-              Product.fromJson(data.data() as Map<String, dynamic>);
-          product.id = product.id;
-          return product;
+    List<myUser> myUsers = snapshot.data?.docs.map<myUser>((data) {
+          myUser user = myUser.fromJson(data.data() as Map<String, dynamic>);
+          user.uid = user.uid;
+          return user;
         }).toList() ??
         [];
     return Column(
@@ -236,8 +252,8 @@ Padding(padding: EdgeInsets.only(left: 16, right: 16) , child:  Column(
             child: GridView.count(
                 crossAxisCount: 1,
                 padding: const EdgeInsets.all(20.0),
-                childAspectRatio: 10.0 / 7.1,
-                children: _buildGridCards(context, products)))
+                childAspectRatio: 3 / 2,
+                children: _buildGridCards(context, myUsers)))
       ],
     );
   }
