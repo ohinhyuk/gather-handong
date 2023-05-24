@@ -12,7 +12,7 @@ class myUser {
   late List<dynamic> interest;
   late List<dynamic> lifeStyle;
   late List<dynamic> profileImages;
-  late List<dynamic> aboutYou;
+  // late List<dynamic> aboutYou;
   late String relation;
   late List<dynamic> likes;
 
@@ -38,7 +38,7 @@ class myUser {
     required this.interest,
     required this.lifeStyle,
     required this.profileImages,
-    required this.aboutYou,
+    // required this.aboutYou,
     required this.relation,
     required this.likes,
   });
@@ -58,7 +58,7 @@ class myUser {
     interest = json['interest'];
     lifeStyle = json['lifeStyle'];
     profileImages = json['profileImages'];
-    aboutYou = json['aboutYou'];
+    // aboutYou = json['aboutYou'];
     relation = json['relation'];
     likes = json['likes'];
   }
@@ -75,7 +75,7 @@ class myUser {
     'interest' : interest,
     'lifeStyle' : lifeStyle,
     'profileImages' : profileImages,
-    'aboutYou' : aboutYou,
+    // 'aboutYou' : aboutYou,
     'relation' : relation,
     'likes' : likes
 

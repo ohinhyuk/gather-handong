@@ -1,8 +1,12 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/app.dart';
+
+import 'controller/FirebaseController.dart';
+import 'model/myUser.dart';
 
 const List<String> interestList = [
   '서적', '감상', '글쓰기', '요리', '배우기', '마술', '노래', '랩', '피아노', '드럼', '서예', '미술', '요가', '댄스', '발레', '스쿼시', '등산', '서핑', '스케이트보드', '수영', '요트', '야구', '축구', '농구', '탁구', '볼링', '골프', '테니스', '배드민턴', '킥복싱', '사격', '크로스핏', '스노우보드', '스케이트', '클라이밍', '스쿠버다이빙', '낚시', '악기', '사진', '영화', '드라마', '만화', '웹툰', '게임', '보드게임', '퍼즐', '카드', '비디오 편집', '애니메이션', '웹디자인', '모형', '로봇', '코딩', '캘리그라피', '비누 만들기', '플라워 아트', '헬스', '필라테스', '홈트', '체조', '헬리콥터', '주식', '경제', '외국어', 'DIY', '영화 감상', '음악 감상', '여행', '사진 찍기', '드라이브', '산책', '캠핑', '피크닉', '꽃 키우기', '악기 연주', '독서', '맛집 탐방', '커피', '차', '와인', '테마파크', '전시회', '쇼핑', '패션', '향수', '뷰티', '피부관리', '네일아트', '요리 클래스', '요가 수련', '영화 제작', '방송', '드라마 연기', '스포츠 경기 관람', '패션 디자인', '사진 스튜디오', '공연 관람', '동물 애호가', '환경 보호', '자원 봉사', '사회 봉사', '기부 활동', '걷기', '달리기', '사이클링', '수상스키', '요트', '골프', 'PC방', 'K-드라마', '물리학', '춤', '독서', '자전거'
@@ -26,8 +30,14 @@ const Map<String , List<String>> lifeStyleList = {
   'Sleep' : ['아침형 인간' , '야행성' , '때에 따라 다름'],
 };
 
+const List<String> relationList = ['💘진지한 연애' , '😍진지한 연애를 찾지만 캐주얼해도 괜찮음' , '🍸캐주얼한 연애를 찾지만 진지해도 괜찮음' , '🎉캐주얼하게 만날 친구' , '👋새로운 동네 친구' , '🤔아직 모르겠음'];
 
-const List<Widget> fruits = <Widget>[
+
+// const List<String>  aboutYouList = {
+//   ''
+// }
+
+const List<Widget> sexes = <Widget>[
   Text('남자'),
   Text('여자'),
 ];
@@ -46,6 +56,7 @@ class _SignUpPage extends State<SignUpPage> {
   List<String> myInterest = [];
   List<String> myAboutMe = [];
   List<String> myLifeStyle = [];
+  List<String> myRelation = [];
   // List<String> myEducation = [];
   // List<String> myReligion = [];
   // List<String> myContact = [];
@@ -58,7 +69,7 @@ class _SignUpPage extends State<SignUpPage> {
   final _descriptionController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final List<bool> _selectedFruits = <bool>[true, false];
+  final List<bool> _selectedSexes = <bool>[true, false];
   // final _sexList = ['남성' , '여성'];
   // var _selectedValue = '남성';
 
@@ -139,8 +150,8 @@ class _SignUpPage extends State<SignUpPage> {
                   onPressed: (int index) {
                     setState(() {
                       // The button that is tapped is set to true, and the others to false.
-                      for (int i = 0; i < _selectedFruits.length; i++) {
-                        _selectedFruits[i] = i == index;
+                      for (int i = 0; i < _selectedSexes.length; i++) {
+                        _selectedSexes[i] = i == index;
                       }
                     });
                   },
@@ -153,8 +164,8 @@ class _SignUpPage extends State<SignUpPage> {
                     minHeight: 40.0,
                     minWidth: 80.0,
                   ),
-                  isSelected: _selectedFruits,
-                  children: fruits,
+                  isSelected: _selectedSexes,
+                  children: sexes,
                 ),
 
                 ),
@@ -198,16 +209,35 @@ class _SignUpPage extends State<SignUpPage> {
                 OptionGrid(lifeStyleList['SNS']!, 'SNS를 하시는 빈도는?' , 3 , myLifeStyle),
                 OptionGrid(lifeStyleList['Sleep']!, '수면 패턴이 어떻게 되세요?' , 5, myLifeStyle),
 
+
+
+                BigTitle('내가 찾는 관계'),
+                OptionGrid(relationList, '수면 패턴이 어떻게 되세요?' , 5,myRelation),
+
+                Center(child:
+                ElevatedButton(onPressed: () => {
+                  Navigator.pushNamed(context, "/"),
+                
+                
+                  FirebaseController.myUserAdd(myUser(
+                    uid: FirebaseAuth.instance.currentUser!.uid,
+                    email: FirebaseAuth.instance.currentUser!.email as String,
+                    nickname : _nicknameController.text,
+                    age : int.parse(_ageController.text),
+                    sex : _selectedSexes[0] == true ? '남자' : '여자',
+                    location : _locationController.text,
+                    aboutMe : myAboutMe,
+                    interest : myInterest,
+                    lifeStyle : myLifeStyle,
+                    profileImages : [],
+                    relation : myRelation[0],
+                    likes : [],))
+                }, child: Text('가입 하기') )
+                  ,)
+
                 // Center(child: Text('나의 라이프 스타일을 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 //   color: Theme.of(context).colorScheme.onBackground,
                 // ),),),
-
-
-
-
-
-
-
 
                 // Center(child: Text('' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 //   color: Theme.of(context).colorScheme.onBackground,
