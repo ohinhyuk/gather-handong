@@ -1,9 +1,14 @@
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/app.dart';
+import 'package:gather_handong/main.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import 'controller/FirebaseController.dart';
 import 'model/myUser.dart';
@@ -57,6 +62,7 @@ class _SignUpPage extends State<SignUpPage> {
   List<String> myAboutMe = [];
   List<String> myLifeStyle = [];
   List<String> myRelation = [];
+  List<String> myImages = [];
   // List<String> myEducation = [];
   // List<String> myReligion = [];
   // List<String> myContact = [];
@@ -80,6 +86,8 @@ class _SignUpPage extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var appState_watch = context.watch<ApplicationState>();
     // TODO: implement build
     return Scaffold(
         backgroundColor : Theme.of(context).colorScheme.primaryContainer,
@@ -214,6 +222,9 @@ class _SignUpPage extends State<SignUpPage> {
                 BigTitle('내가 찾는 관계'),
                 OptionGrid(relationList, '수면 패턴이 어떻게 되세요?' , 5,myRelation),
 
+                BigTitle('프로필 사진 업로드'),
+                ImageGrid(),
+
                 Center(child:
                 ElevatedButton(onPressed: () => {
                   Navigator.pushNamed(context, "/"),
@@ -229,11 +240,15 @@ class _SignUpPage extends State<SignUpPage> {
                     aboutMe : myAboutMe,
                     interest : myInterest,
                     lifeStyle : myLifeStyle,
-                    profileImages : [],
+                    profileImages : appState_watch.uploadImageUrl.where((item) => item.isNotEmpty).toList(),
                     relation : myRelation[0],
                     likes : [],))
-                }, child: Text('가입 하기') )
-                  ,)
+                },
+
+                    child: Text('가입 하기') )
+                  ,),
+
+
 
                 // Center(child: Text('나의 라이프 스타일을 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 //   color: Theme.of(context).colorScheme.onBackground,
@@ -243,8 +258,6 @@ class _SignUpPage extends State<SignUpPage> {
                 //   color: Theme.of(context).colorScheme.onBackground,
                 // ),),),
                 // OptionGrid(interestList , ' ' , 6),
-
-
 
               ],
             ),
@@ -259,10 +272,136 @@ class _SignUpPage extends State<SignUpPage> {
 
 }
 
+class ImageGrid extends StatefulWidget{
+    @override
+    _ImageGrid createState() => _ImageGrid();
+}
+
+class _ImageGrid extends State<ImageGrid> {
+
+  final firebaseRef = FirebaseStorage.instance.ref();
+
+  // var appState =
+  // List<String> uploadImageUrl = ['' , '' , '', '', '', ''];
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    var appState_watch = context.watch<ApplicationState>();
+    var appState_read = context.read<ApplicationState>();
+
+    void _pickImage(int index) async {
+      final ImagePicker picker = ImagePicker();
+
+
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+      if (image?.path == null) return null;
+
+      final ref = firebaseRef.child('product_image').child(image!.name);
+
+      await ref.putFile(File(image!.path));
+
+      ref.getDownloadURL().then((value) => {
+        appState_read.addImage(value,index),
+        // uploadImageUrl[index] = value,
+        // print( appState_watch.uploadImageUrl[index] + value),
+        // setState(() {
+        // })
+      }
+      );
+
+    }
+
+    // TODO: implement build
+    return  GridView.count(
+      padding: EdgeInsets.all(20),
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 10,
+        childAspectRatio: 3 / 4,
+        crossAxisCount: 3,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: appState_watch.uploadImageUrl.asMap().entries.map( (entry){
+          return entry.value == ''
+          ? InkWell( onTap: (){
+            _pickImage(entry.key);
+          } ,
+            child: ImageItem()
+          )
+              // 사진  / 3에는 사진 리스트의 길이가 들어가면 됨
+         : Stack(
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Theme.of(context).colorScheme.onBackground,
+                //     width: 2.0,
+                //   ),
+                // ),
+                child: Image.network(entry.value),
+              ),
+              Positioned(
+                top: 5,
+                right: 5,
+                child: InkWell(
+                  onTap: () {
+                    // 클릭 이벤트 발생 시 실행될 코드 작성
+                    // Navigator.pop(context); // 현재 화면 닫기
+                    appState_read.removeImage(entry.key);
+                  },
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.pinkAccent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+
+        }).toList(),
+    );
+
+  }
+
+
+}
+
+class ImageItem extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onBackground,
+          width: 2.0,
+        )
+      ),
+      child: Center(
+          child: Icon(Icons.add)
+      ),
+    );
+
+  }
+}
 
 
 class OptionGrid extends StatefulWidget {
-
 
   final List<String> myList;
   final List<String> itemList;
@@ -276,6 +415,7 @@ class OptionGrid extends StatefulWidget {
 }
 
 class _OptionGrid extends State<OptionGrid> {
+
 
   @override
   Widget build(BuildContext context){

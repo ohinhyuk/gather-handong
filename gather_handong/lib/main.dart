@@ -19,8 +19,19 @@ void main() async {
 }
 
 class ApplicationState extends ChangeNotifier {
+
   ApplicationState() {
     init();
+  }
+
+  List<String> uploadImageUrl = ['' , '' , '', '', '', ''];
+  void addImage(String url, int index){
+      uploadImageUrl[index] = url;
+      notifyListeners();
+  }
+  void removeImage(int index){
+    uploadImageUrl[index] = '';
+    notifyListeners();
   }
 
   List<Product> cart = [];
