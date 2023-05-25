@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/add.dart';
@@ -200,6 +201,19 @@ class HomePage extends StatelessWidget {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
+      bottomNavigationBar: ConvexAppBar(
+        items: [
+          TabItem(icon: Icons.favorite, title: '매칭'),
+          TabItem(icon: Icons.people, title: '그룹매칭'),
+          TabItem(icon: Icons.chat_bubble, title: '채팅'),
+          TabItem(icon: Icons.person, title: '프로필'),
+        ],
+        height: 50,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        // style: TabStyle.react,
+        onTap: (int i) => print('cliked'),
+      ),
+
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
