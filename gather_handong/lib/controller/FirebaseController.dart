@@ -34,4 +34,9 @@ class FirebaseController {
       .collection('myUsers')
       .doc(user.uid)
       .set(user.toJson());
+
+  static void myUserUpdate(myUser user) => FirebaseFirestore.instance
+      .collection('myUsers')
+      .doc(user.uid)
+      .set(user.toJson());
 }

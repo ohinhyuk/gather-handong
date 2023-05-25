@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/add.dart';
+import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/detail.dart';
 import 'package:gather_handong/main.dart';
 import 'package:gather_handong/model/myUser.dart';
@@ -54,7 +55,13 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Icon(Icons.favorite_border_outlined),
+                          IconButton(
+                              icon: Icon(Icons.favorite),
+                              onPressed: () => {
+                                    user.likes.remove(
+                                        FirebaseAuth.instance.currentUser!.uid),
+                                    FirebaseController.myUserUpdate(user),
+                                  }),
                         ],
                       ),
                     )
@@ -63,7 +70,14 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Icon(Icons.favorite_border_outlined),
+                          IconButton(
+                            icon: Icon(Icons.favorite_border_outlined),
+                            onPressed: () => {
+                              user.likes
+                                  .add(FirebaseAuth.instance.currentUser!.uid),
+                              FirebaseController.myUserUpdate(user),
+                            },
+                          ),
                         ],
                       ),
                     ),
