@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gather_handong/model/myUser.dart';
 import 'package:gather_handong/model/product.dart';
 import 'package:gather_handong/model/user.dart';
@@ -29,6 +30,11 @@ class FirebaseController {
       collectionUser.orderBy('nickname', descending: true);
   static get getUser => orderedUser.get();
   static get snapshotUsers => orderedUser.snapshots();
+
+  static get myProfileSnapshots => FirebaseFirestore.instance
+      .collection('myUsers')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .get();
 
   static void myUserAdd(myUser user) => FirebaseFirestore.instance
       .collection('myUsers')

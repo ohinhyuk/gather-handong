@@ -22,6 +22,8 @@ dependencies:
   firebase_storage: ^11.2.1
   image_picker: ^0.8.7+5
   convex_bottom_bar: ^3.2.0
+  card_swiper: ^2.0.4
+
 
 dev_dependencies:
   flutter_test:
