@@ -63,7 +63,10 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               IconButton(
-                                  icon: Icon(Icons.favorite),
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: theme.colorScheme.primary,
+                                  ),
                                   onPressed: () => {
                                         user.likes.remove(FirebaseAuth
                                             .instance.currentUser!.uid),
@@ -106,35 +109,44 @@ class HomePage extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                         left: 20,
                                         right: 16,
-                                        top: 15,
-                                        bottom: 15),
+                                        top: 10,
+                                        bottom: 20),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          user.nickname,
-                                          style: theme.textTheme.titleLarge,
+                                          user.nickname +
+                                              ", " +
+                                              user.age.toString(),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.grey[700],
+                                              fontWeight: FontWeight.w700),
                                           maxLines: 1,
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          user.age.toString(),
-                                          style: theme.textTheme.titleLarge,
-                                        ),
+                                        // Text(
+                                        //   user.age.toString(),
+                                        //   style: theme.textTheme.titleLarge,
+                                        // ),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         user.sex == '남자'
-                                            ? Text(
+                                            ?
+                                            // Text('')
+                                            Text(
                                                 '男',
                                                 style: TextStyle(
-                                                  color: Colors.blue,
+                                                  color: Colors.blue[600],
                                                   fontSize: 20,
                                                 ),
                                               )
+                                            // Icon(
+                                            //     Icons.man,
+                                            //     // color: Colors.grey[600],
+                                            //     // color: Colors.blue,
+                                            //   )
                                             : Text(
                                                 '女',
                                                 style: TextStyle(
@@ -176,30 +188,19 @@ class HomePage extends StatelessWidget {
                                       scale: 0.9,
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: GridButtons(items: user.interest),
+                                  ),
                                 ],
                               ),
                               // TODO: Handle overflowing labels (103)
 
                               //descrition
-                              GridView.count(
-                                  padding: EdgeInsets.all(0),
-                                  mainAxisSpacing: 5,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 4 / 2,
-                                  crossAxisCount: 4,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: user.interest.map((elem) {
-                                    return FilledButton(
-                                      onPressed: null,
-                                      child: Text(elem),
-                                      style: OutlinedButton.styleFrom(
-                                        padding: EdgeInsets.only(
-                                          right: 0,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList()),
 
                               // Text(
                               // user.location,
@@ -212,19 +213,6 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: TextButton(
-                          onPressed: () => {},
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             DetailPage(user)
-                          //
-                          //     )),
-                          child: const Text('more'))),
                 ],
               )),
           backWidget: Card(
@@ -240,7 +228,10 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               IconButton(
-                                  icon: Icon(Icons.favorite),
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: theme.colorScheme.primary,
+                                  ),
                                   onPressed: () => {
                                         user.likes.remove(FirebaseAuth
                                             .instance.currentUser!.uid),
@@ -283,35 +274,44 @@ class HomePage extends StatelessWidget {
                                     padding: EdgeInsets.only(
                                         left: 20,
                                         right: 16,
-                                        top: 15,
-                                        bottom: 15),
+                                        top: 10,
+                                        bottom: 20),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          user.nickname,
-                                          style: theme.textTheme.titleLarge,
+                                          user.nickname +
+                                              ", " +
+                                              user.age.toString(),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.grey[700],
+                                              fontWeight: FontWeight.w700),
                                           maxLines: 1,
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          user.age.toString(),
-                                          style: theme.textTheme.titleLarge,
-                                        ),
+                                        // Text(
+                                        //   user.age.toString(),
+                                        //   style: theme.textTheme.titleLarge,
+                                        // ),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         user.sex == '남자'
-                                            ? Text(
+                                            ?
+                                            // Text('')
+                                            Text(
                                                 '男',
                                                 style: TextStyle(
-                                                  color: Colors.blue,
+                                                  color: Colors.blue[600],
                                                   fontSize: 20,
                                                 ),
                                               )
+                                            // Icon(
+                                            //     Icons.man,
+                                            //     // color: Colors.grey[600],
+                                            //     // color: Colors.blue,
+                                            //   )
                                             : Text(
                                                 '女',
                                                 style: TextStyle(
@@ -325,32 +325,80 @@ class HomePage extends StatelessWidget {
 
                                   // 이제 나머지 내용 여기 다 넣어야함.
                                   // 이렇게 해서 카드를 꾸미고 이걸 프로필에서도 사용할 예정
+                                  // Text('내가 찾는 관계'),
+                                  Center(
+                                    child: Card(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(12)),
+                                      ),
+                                      child: SizedBox(
+                                        width: 270,
+                                        height: 50,
+                                        child: Center(
+                                            child: Text(
+                                          user.relation,
+                                          style: TextStyle(
+                                              color: theme.colorScheme.primary),
+                                        )),
+                                      ),
+                                    ),
+                                  ),
 
-                                  GridButtons(items: user.interest),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 20,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10),
+                                    child: Divider(
+                                        height: 1.0,
+                                        color: theme.colorScheme.secondary),
+                                  ),
+
+                                  GridButtons(items: user.aboutMe),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10),
+                                    child: Divider(
+                                        height: 1.0,
+                                        color: theme.colorScheme.secondary),
+                                  ),
+
+                                  GridButtons(items: user.lifeStyle),
                                 ],
                               ),
                               // TODO: Handle overflowing labels (103)
 
-                              //descrition
-                              GridView.count(
-                                  padding: EdgeInsets.all(0),
-                                  mainAxisSpacing: 5,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 4 / 2,
-                                  crossAxisCount: 4,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: user.interest.map((elem) {
-                                    return FilledButton(
-                                      onPressed: null,
-                                      child: Text(elem),
-                                      style: OutlinedButton.styleFrom(
-                                        padding: EdgeInsets.only(
-                                          right: 0,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList()),
+                              // //descrition
+                              // GridView.count(
+                              //     padding: EdgeInsets.all(0),
+                              //     mainAxisSpacing: 5,
+                              //     crossAxisSpacing: 10,
+                              //     childAspectRatio: 4 / 2,
+                              //     crossAxisCount: 4,
+                              //     shrinkWrap: true,
+                              //     physics: NeverScrollableScrollPhysics(),
+                              //     children: user.interest.map((elem) {
+                              //       return FilledButton(
+                              //         onPressed: null,
+                              //         child: Text(elem),
+                              //         style: OutlinedButton.styleFrom(
+                              //           padding: EdgeInsets.only(
+                              //             right: 0,
+                              //           ),
+                              //         ),
+                              //       );
+                              //     }).toList()),
 
                               // Text(
                               // user.location,
@@ -363,19 +411,19 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: TextButton(
-                          onPressed: () => {},
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             DetailPage(user)
-                          //
-                          //     )),
-                          child: const Text('more'))),
+                  // Positioned(
+                  //     bottom: 0,
+                  //     right: 0,
+                  //     child: TextButton(
+                  //         onPressed: () => {},
+                  //         // Navigator.push(
+                  //         //     context,
+                  //         //     MaterialPageRoute(
+                  //         //         builder: (context) =>
+                  //         //             DetailPage(user)
+                  //         //
+                  //         //     )),
+                  //         child: const Text('more'))),
                 ],
               )));
     }).toList();

@@ -8,25 +8,37 @@ class GridButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
+    return Padding(
       padding: EdgeInsets.all(0),
-      mainAxisSpacing: 5,
-      crossAxisSpacing: 10,
-      // childAspectRatio: 4 / 2,
-      crossAxisCount: 5,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: items.map((elem) {
-        return Card(
-          // onPressed: null,
-          child: Text(elem),
-          // style: OutlinedButton.styleFrom(
-          //   padding: EdgeInsets.only(
-          //     right: 0,
-          //   ),
-          // ),
-        );
-      }).toList(),
+      child: Wrap(
+        spacing: 5,
+        runSpacing: -15, // 버튼 간 라인 간격을 음수로 설정하여 줄입니다
+        alignment: WrapAlignment.start, // 왼쪽으로 정렬합니다
+        children: items.map((elem) {
+          return OutlinedButton(
+            onPressed: null,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 3),
+              child: Text(
+                elem,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.white,
+              side: BorderSide(
+                width: 1.0,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              minimumSize: Size(0, 0),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
