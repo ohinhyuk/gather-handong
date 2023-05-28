@@ -454,41 +454,37 @@ class HomePage extends StatelessWidget {
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
       bottomNavigationBar: ConvexAppBar(
-        items: [
-          TabItem(icon: Icons.favorite, title: '매칭'),
-          TabItem(icon: Icons.people, title: '그룹매칭'),
-          TabItem(icon: Icons.chat_bubble, title: '채팅'),
-          TabItem(icon: Icons.person, title: '프로필'),
-        ],
-        height: 50,
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        // style: TabStyle.react,
-        onTap: (int i) => print('cliked'),
-      ),
+          items: [
+            TabItem(icon: Icons.favorite, title: '매칭'),
+            TabItem(icon: Icons.people, title: '그룹매칭'),
+            TabItem(icon: Icons.chat_bubble, title: '채팅'),
+            TabItem(icon: Icons.person, title: '프로필'),
+          ],
+          height: 50,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          // style: TabStyle.react,
+          onTap: (int i) => {
+                if (i == 3) {Navigator.pushNamed(context, '/profile')}
+              }),
 
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.person,
-            semanticLabel: 'profile',
-          ),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfilePage()));
-          },
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        // leading:
+        // IconButton(
+        //   icon: const Icon(
+        //     Icons.person,
+        //     semanticLabel: 'profile',
+        //   ),
+        //   onPressed: () {
+        //     Navigator.push(context,
+        //         MaterialPageRoute(builder: (context) => ProfilePage()));
+        //   },
+        // ),
+        title: Text(
+          '모여라 한동',
+          style: TextStyle(color: Theme.of(context).colorScheme.background),
         ),
-        title: const Text('Main'),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.shopping_cart,
-              semanticLabel: 'wishlist',
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WishListPage()));
-            },
-          ),
           IconButton(
             icon: const Icon(
               Icons.add,
@@ -527,7 +523,19 @@ class HomePage extends StatelessWidget {
         [];
     return Column(
       children: [
-        const DropdownButtonExample(),
+        Padding(
+          padding: EdgeInsets.only(top: 15, bottom: 5),
+          child: Center(
+              child: Text(
+            '더 알아가보고 싶은 분께 관심을 표현해주세요!',
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w500,
+                fontSize: 16),
+          )),
+        ),
+        // Divider(thickness: 2, color: Theme.of(context).colorScheme.secondary),
+        // const DropdownButtonExample(),
         Expanded(
             child: GridView.count(
                 crossAxisCount: 1,

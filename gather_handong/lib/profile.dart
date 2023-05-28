@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/main.dart';
+import 'package:gather_handong/modify.dart';
 
 import 'package:provider/provider.dart';
 
@@ -42,9 +43,22 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Navigator.push(
+            // context, MaterialPageRoute(builder: (context) => ModifyPage(product)),
+            // );
+          },
+          shape: CircleBorder(),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          child: const Icon(
+            Icons.edit,
+            color: Colors.white,
+          ),
+        ),
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [

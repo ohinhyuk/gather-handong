@@ -24,6 +24,7 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   card_swiper: ^2.0.4
   flash_card: ^0.0.5
+  autocomplete_textfield: ^2.0.1
 
 
 dev_dependencies:

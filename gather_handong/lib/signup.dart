@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gather_handong/app.dart';
+import 'package:gather_handong/components/GridButtons.dart';
+import 'package:gather_handong/components/GridButtonsSignup.dart';
 import 'package:gather_handong/main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -215,12 +219,40 @@ class _SignUpPage extends State<SignUpPage> {
   // List<String> myContact = [];
   // List<String> myLoveLanguage = [];
   // List<String> myPriority = [];
-
+  final _interestController = TextEditingController();
   final _nicknameController = TextEditingController();
   final _ageController = TextEditingController();
   final _locationController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  // List<String> added = [];
+  //거주지
+  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
+
+  String currentText = "";
+
+  SimpleAutoCompleteTextField? interestAutoCompleteTextField;
+
+  _SignUpPage() {
+    interestAutoCompleteTextField = SimpleAutoCompleteTextField(
+      key: key,
+      decoration: InputDecoration(
+        // icon: Icon(Icons.search),
+        hintText: '관심 태그를 검색',
+        // helperText: '간략하게 작성',
+        // counterText: 'ex) 서울특별시',
+      ),
+      controller: _interestController,
+      suggestions: interestList,
+      textChanged: (text) => {currentText = text},
+      clearOnSubmit: true,
+      textSubmitted: (text) => setState(() {
+        if (interestList.contains(text) && !myInterest.contains(text))
+          myInterest.add(text);
+      }),
+    );
+  }
 
   final List<bool> _selectedSexes = <bool>[true, false];
 
@@ -252,8 +284,13 @@ class _SignUpPage extends State<SignUpPage> {
         body: Padding(
             padding: EdgeInsets.only(left: 30, right: 30, top: 50, bottom: 50),
             child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                    15.0), // 테두리를 round 처리하기 위한 BorderRadius 설정
+              ),
               width: double.infinity,
-              color: Colors.white,
+              // color: Colors.white,
               child: ListView(
                 shrinkWrap: true,
                 physics: AlwaysScrollableScrollPhysics(),
@@ -263,76 +300,100 @@ class _SignUpPage extends State<SignUpPage> {
                     'assets/images/logo_gather_handong.png',
                     height: 100,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      '! 신중하게 작성해주세요 !',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                    ),
+
+                  Text(
+                    '! 신중하게 작성해주세요 !',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                    textAlign: TextAlign.center,
                   ),
 
                   Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: TextField(
                       controller: _nicknameController,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        labelText: '닉네임',
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.drive_file_rename_outline),
+                        hintText: '닉네임',
+                        helperText: '이름 , 별명 등',
                       ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: TextField(
-                      controller: _ageController,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          filled: true,
-                          border: OutlineInputBorder(),
-                          labelText: '나이'),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      controller: _ageController,
+                      // keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.timer),
+                        hintText: '나이',
+                        helperText: '숫자만 입력 가능',
+                      ),
                     ),
                   ),
 
                   Padding(
-                    padding: EdgeInsets.all(20),
-                    child: TextField(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child:
+                        // textField,
+                        TextField(
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.home),
+                        hintText: '거주 지역',
+                        helperText: '간략하게 작성',
+                        counterText: 'ex) 서울특별시',
+                      ),
                       controller: _locationController,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        labelText: '거주지',
-                      ),
+                      // decoration: InputDecoration(
+                      //   filled: true,
+                      //   // border: OutlineInputBorder(),
+                      //   fillColor: Theme.of(context).colorScheme.background,
+                      //   labelText: '거주지',
+                      // ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(20),
-                    child: ToggleButtons(
-                      direction: Axis.horizontal,
-                      onPressed: (int index) {
-                        setState(() {
-                          // The button that is tapped is set to true, and the others to false.
-                          for (int i = 0; i < _selectedSexes.length; i++) {
-                            _selectedSexes[i] = i == index;
-                          }
-                        });
-                      },
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      selectedBorderColor: Colors.red[700],
-                      selectedColor: Colors.white,
-                      fillColor: Colors.red[200],
-                      color: Colors.red[400],
-                      constraints: const BoxConstraints(
-                        minHeight: 40.0,
-                        minWidth: 80.0,
-                      ),
-                      isSelected: _selectedSexes,
-                      children: sexes,
-                    ),
-                  ),
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Icon(Icons.male),
+                          Icon(Icons.female),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          ToggleButtons(
+                            direction: Axis.horizontal,
+                            onPressed: (int index) {
+                              setState(() {
+                                // The button that is tapped is set to true, and the others to false.
+                                for (int i = 0;
+                                    i < _selectedSexes.length;
+                                    i++) {
+                                  _selectedSexes[i] = i == index;
+                                }
+                              });
+                            },
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            selectedBorderColor: Colors.red[700],
+                            selectedColor: Colors.white,
+                            fillColor: Colors.red[200],
+                            color: Colors.red[400],
+                            constraints: const BoxConstraints(
+                              minHeight: 40.0,
+                              minWidth: 80.0,
+                            ),
+                            isSelected: _selectedSexes,
+                            children: sexes,
+                          ),
+                        ],
+                      )),
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: Divider(
@@ -342,6 +403,11 @@ class _SignUpPage extends State<SignUpPage> {
                   ),
 
                   BigTitle('나의 관심사를 골라주세요😀'),
+                  ListTile(
+                    title: interestAutoCompleteTextField,
+                  ),
+                  GridButtons(items: myInterest),
+
                   // Center(child: Text('나의 관심사를 골라주세요' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   //   color: Theme.of(context).colorScheme.onBackground,
                   // ),),),
@@ -584,52 +650,53 @@ class _OptionGrid extends State<OptionGrid> {
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
             ),
-            GridView.count(
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 10,
-              childAspectRatio: 3 / 1,
-              crossAxisCount: 4,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: widget.itemList!.map((mbti) {
-                return Container(
-                    child: widget.myList.contains(mbti)
-                        ? FilledButton(
-                            onPressed: () {
-                              widget.myList.remove(mbti);
-                              setState(() {});
-                            },
-                            child: Text(
-                              mbti,
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.only(
-                                right: 0,
-                              ),
-                            ),
-                          )
-                        : OutlinedButton(
-                            onPressed: () {
-                              widget.myList.add(mbti);
-                              setState(() {});
-                            },
-                            child: Text(
-                              mbti,
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.only(
-                                right: 0,
-                              ),
-                            ),
-                          ));
-              }).toList(),
-            ),
+            GridButtonsSignup(items: widget.itemList, myItems: widget.myList)
+            // GridView.count(
+            //   mainAxisSpacing: 15,
+            //   crossAxisSpacing: 10,
+            //   childAspectRatio: 3 / 1,
+            //   crossAxisCount: 4,
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   children: widget.itemList!.map((mbti) {
+            //     return Container(
+            //       child: widget.myList.contains(mbti)
+            //           ? FilledButton(
+            //               onPressed: () {
+            //                 widget.myList.remove(mbti);
+            //                 setState(() {});
+            //               },
+            //               child: Text(
+            //                 mbti,
+            //                 style: TextStyle(
+            //                   fontSize: 13,
+            //                 ),
+            //               ),
+            //               style: OutlinedButton.styleFrom(
+            //                 padding: EdgeInsets.only(
+            //                   right: 0,
+            //                 ),
+            //               ),
+            //             )
+            //           : OutlinedButton(
+            //               onPressed: () {
+            //                 widget.myList.add(mbti);
+            //                 setState(() {});
+            //               },
+            //               child: Text(
+            //                 mbti,
+            //                 style: TextStyle(
+            //                   fontSize: 13,
+            //                 ),
+            //               ),
+            //               style: OutlinedButton.styleFrom(
+            //                 padding: EdgeInsets.only(
+            //                   right: 0,
+            //                 ),
+            //               ),
+            //             ));
+            // }).toList(),
+            // ),
           ],
         ));
   }

@@ -6,7 +6,7 @@ const lightColorScheme = ColorScheme(
   onPrimary: Color(0xFFFFFFFF),
   primaryContainer: Color(0xFFF8D1D1), // custom
   onPrimaryContainer: Color(0xFF400010),
-  secondary: Color(0xFFFFAAAF),// custom
+  secondary: Color(0xFFFFAAAF), // custom
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFFF2D7FF), // custom
   onSecondaryContainer: Color(0xFF400010),
@@ -18,7 +18,7 @@ const lightColorScheme = ColorScheme(
   errorContainer: Color(0xFFFFDAD6),
   onError: Color(0xFFFFFFFF),
   onErrorContainer: Color(0xFF410002),
-  background: Color(0xFFFFFBFF), // custom text, background
+  background: Color(0xFFFFFFFF), // custom text, background
   onBackground: Color(0xFF000000), // custom text, background
   surface: Color(0xFFFFFBFF),
   onSurface: Color(0xFF201A1A),

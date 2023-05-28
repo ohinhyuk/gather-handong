@@ -14,6 +14,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/profile.dart';
 import 'package:gather_handong/signup.dart';
 import 'package:gather_handong/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -38,32 +39,30 @@ class App extends StatelessWidget {
             appState.loggedIn ? const SignUpPage() : const LoginPage(),
         // TODO: Change to a Backdrop with a HomePage frontLayer (104)
         '/': (BuildContext context) => const HomePage(),
-        '/signup' : (BuildContext context) => const SignUpPage(),
+        '/signup': (BuildContext context) => const SignUpPage(),
+        '/profile': (BuildContext context) => ProfilePage(),
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)
       },
       // TODO: Customize the theme (103)
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: lightColorScheme,
-        textTheme: const TextTheme(
-            titleLarge: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),
-            titleMedium: TextStyle(fontSize: 15 , fontWeight: FontWeight.w400),
-            titleSmall: TextStyle(fontSize: 13 , fontWeight: FontWeight.normal),
-        )
-      ),
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+            titleSmall: TextStyle(fontSize: 13, fontWeight: FontWeight.normal),
+          )),
       // apply dark mode theme
       darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: darkColorScheme,
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
           textTheme: const TextTheme(
-            titleLarge: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),
-            titleMedium: TextStyle(fontSize: 15 , fontWeight: FontWeight.w400),
-            titleSmall: TextStyle(fontSize: 13 , fontWeight: FontWeight.normal),
-          )
-      ),
-
+            titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+            titleSmall: TextStyle(fontSize: 13, fontWeight: FontWeight.normal),
+          )),
     );
   }
 }
