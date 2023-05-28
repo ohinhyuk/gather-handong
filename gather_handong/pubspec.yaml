@@ -23,6 +23,7 @@ dependencies:
   image_picker: ^0.8.7+5
   convex_bottom_bar: ^3.2.0
   card_swiper: ^2.0.4
+  flash_card: ^0.0.5
 
 
 dev_dependencies:

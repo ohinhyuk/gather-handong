@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/main.dart';
 
@@ -99,15 +100,31 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(uid),
+                    Center(
+                      child: Text(snapshot.data!.get('nickname') +
+                          snapshot.data!.get('age').toString() +
+                          snapshot.data!.get('sex')),
+                    ),
                     const Divider(thickness: 1, height: 1),
-                    Text(email),
                     const SizedBox(
                       height: 15,
                     ),
-                    Text(name),
-                    const Text(
-                        'I promise to take the test honestly before GOD'),
+                    const Text('내가 찾는 관계'),
+                    Card(
+                      child: Text(snapshot.data!.get('relation')),
+                    ),
+                    const Text('나의 관심사'),
+                    GridButtons(
+                      items: snapshot.data!.get('interest'),
+                    ),
+                    const Text('나의 소개'),
+                    GridButtons(
+                      items: snapshot.data!.get('aboutMe'),
+                    ),
+                    const Text('나의 라이프스타일'),
+                    GridButtons(
+                      items: snapshot.data!.get('lifeStyle'),
+                    ),
                   ],
                 ));
           },

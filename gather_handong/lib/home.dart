@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:card_swiper/card_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/add.dart';
+import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/detail.dart';
 import 'package:gather_handong/main.dart';
@@ -32,11 +35,11 @@ import 'model/products_repository.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  List<Card> _buildGridCards(BuildContext context, List<myUser> myUsers) {
+  List<Widget> _buildGridCards(BuildContext context, List<myUser> myUsers) {
     // var appState = context.watch<ApplicationState>();
 
     if (myUsers.isEmpty) {
-      return const <Card>[];
+      return const <Widget>[];
     }
 
     final ThemeData theme = Theme.of(context);
@@ -44,136 +47,337 @@ class HomePage extends StatelessWidget {
         locale: Localizations.localeOf(context).toString());
 
     return myUsers.map((user) {
-      return Card(
-          clipBehavior: Clip.antiAlias,
-          // TODO: Adjust card heights (103)
-          child: Stack(
-            children: [
-              // appState.checkIsProduct(user)
-              user.likes.contains(FirebaseAuth.instance.currentUser?.uid)
-                  ? Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              icon: Icon(Icons.favorite),
-                              onPressed: () => {
-                                    user.likes.remove(
-                                        FirebaseAuth.instance.currentUser!.uid),
-                                    FirebaseController.myUserUpdate(user),
-                                  }),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.favorite_border_outlined),
-                            onPressed: () => {
-                              user.likes
-                                  .add(FirebaseAuth.instance.currentUser!.uid),
-                              FirebaseController.myUserUpdate(user),
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-              Column(
-                // TODO: Center items on the card (103)
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        // TODO: Align labels to the bottom and center (103)
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // TODO: Change innermost Column (103)
-                        children: <Widget>[
-                          Row(
+      return FlashCard(
+          width: 400,
+          height: 800,
+          frontWidget: Card(
+              clipBehavior: Clip.antiAlias,
+              // TODO: Adjust card heights (103)
+              child: Stack(
+                children: [
+                  // appState.checkIsProduct(user)
+                  user.likes.contains(FirebaseAuth.instance.currentUser?.uid)
+                      ? Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              ClipRRect(
-                                // borderRadius: BorderRadius.circular(50.0),
-                                child: Image.network(
-                                  user.profileImages[0],
-                                  fit: BoxFit.fitWidth,
-                                  width: 100,
-                                  height: 100,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 16, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      user.nickname,
-                                      style: theme.textTheme.titleMedium,
-                                      maxLines: 1,
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text(
-                                      user.age.toString(),
-                                      style: theme.textTheme.titleMedium,
-                                    ),
-                                  ],
-                                ),
-                              )
+                              IconButton(
+                                  icon: Icon(Icons.favorite),
+                                  onPressed: () => {
+                                        user.likes.remove(FirebaseAuth
+                                            .instance.currentUser!.uid),
+                                        FirebaseController.myUserUpdate(user),
+                                      }),
                             ],
                           ),
-                          // TODO: Handle overflowing labels (103)
-
-                          //descrition
-                          GridView.count(
-                              padding: EdgeInsets.all(0),
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 4 / 2,
-                              crossAxisCount: 4,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: user.interest.map((elem) {
-                                return FilledButton(
-                                  onPressed: null,
-                                  child: Text(elem),
-                                  style: OutlinedButton.styleFrom(
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.favorite_border_outlined),
+                                onPressed: () => {
+                                  user.likes.add(
+                                      FirebaseAuth.instance.currentUser!.uid),
+                                  FirebaseController.myUserUpdate(user),
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                  Column(
+                    // TODO: Center items on the card (103)
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            // TODO: Align labels to the bottom and center (103)
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // TODO: Change innermost Column (103)
+                            children: <Widget>[
+                              Column(
+                                children: [
+                                  Padding(
                                     padding: EdgeInsets.only(
-                                      right: 0,
+                                        left: 20,
+                                        right: 16,
+                                        top: 15,
+                                        bottom: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          user.nickname,
+                                          style: theme.textTheme.titleLarge,
+                                          maxLines: 1,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          user.age.toString(),
+                                          style: theme.textTheme.titleLarge,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        user.sex == '남자'
+                                            ? Text(
+                                                '男',
+                                                style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                            : Text(
+                                                '女',
+                                                style: TextStyle(
+                                                  color: Colors.pinkAccent,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                      ],
                                     ),
                                   ),
-                                );
-                              }).toList()),
-                          // Text(
-                          // user.location,
-                          // style: theme.textTheme.titleMedium,
-                          // maxLines: 2,
-                          // ),
-                        ],
+                                  ClipRRect(
+                                    // borderRadius: BorderRadius.circular(50.0),
+                                    child: Swiper(
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Image.network(
+                                          user.profileImages[index],
+                                          fit: BoxFit.fill,
+                                        );
+                                      },
+                                      // scrollDirection: Axis.vertical,
+                                      itemCount: user.profileImages.length,
+                                      itemWidth: 250.0,
+                                      itemHeight: 250.0,
+                                      layout: SwiperLayout.CUSTOM,
+                                      customLayoutOption: CustomLayoutOption(
+                                          startIndex: -1, stateCount: 3)
+                                        // ..addRotate(
+                                        //     [-45.0 / 180, 0.0, 45.0 / 180])
+                                        ..addTranslate([
+                                          Offset(-370.0, -40.0),
+                                          Offset(0.0, 0.0),
+                                          Offset(370.0, -40.0)
+                                        ]),
+                                      // layout: SwiperLayout.TINDER,
+                                      pagination: SwiperPagination(),
+                                      // control: SwiperControl(),
+                                      viewportFraction: 0.8,
+                                      scale: 0.9,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // TODO: Handle overflowing labels (103)
+
+                              //descrition
+                              GridView.count(
+                                  padding: EdgeInsets.all(0),
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 4 / 2,
+                                  crossAxisCount: 4,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  children: user.interest.map((elem) {
+                                    return FilledButton(
+                                      onPressed: null,
+                                      child: Text(elem),
+                                      style: OutlinedButton.styleFrom(
+                                        padding: EdgeInsets.only(
+                                          right: 0,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList()),
+
+                              // Text(
+                              // user.location,
+                              // style: theme.textTheme.titleMedium,
+                              // maxLines: 2,
+                              // ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: TextButton(
+                          onPressed: () => {},
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             DetailPage(user)
+                          //
+                          //     )),
+                          child: const Text('more'))),
                 ],
-              ),
-              Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: TextButton(
-                      onPressed: () => {},
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             DetailPage(user)
-                      //
-                      //     )),
-                      child: const Text('more'))),
-            ],
-          ));
+              )),
+          backWidget: Card(
+              clipBehavior: Clip.antiAlias,
+              // TODO: Adjust card heights (103)
+              child: Stack(
+                children: [
+                  // appState.checkIsProduct(user)
+                  user.likes.contains(FirebaseAuth.instance.currentUser?.uid)
+                      ? Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                  icon: Icon(Icons.favorite),
+                                  onPressed: () => {
+                                        user.likes.remove(FirebaseAuth
+                                            .instance.currentUser!.uid),
+                                        FirebaseController.myUserUpdate(user),
+                                      }),
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.favorite_border_outlined),
+                                onPressed: () => {
+                                  user.likes.add(
+                                      FirebaseAuth.instance.currentUser!.uid),
+                                  FirebaseController.myUserUpdate(user),
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                  Column(
+                    // TODO: Center items on the card (103)
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            // TODO: Align labels to the bottom and center (103)
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // TODO: Change innermost Column (103)
+                            children: <Widget>[
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 20,
+                                        right: 16,
+                                        top: 15,
+                                        bottom: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          user.nickname,
+                                          style: theme.textTheme.titleLarge,
+                                          maxLines: 1,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          user.age.toString(),
+                                          style: theme.textTheme.titleLarge,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        user.sex == '남자'
+                                            ? Text(
+                                                '男',
+                                                style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                            : Text(
+                                                '女',
+                                                style: TextStyle(
+                                                  color: Colors.pinkAccent,
+                                                  fontSize: 20,
+                                                ),
+                                              )
+                                      ],
+                                    ),
+                                  ),
+
+                                  // 이제 나머지 내용 여기 다 넣어야함.
+                                  // 이렇게 해서 카드를 꾸미고 이걸 프로필에서도 사용할 예정
+
+                                  GridButtons(items: user.interest),
+                                ],
+                              ),
+                              // TODO: Handle overflowing labels (103)
+
+                              //descrition
+                              GridView.count(
+                                  padding: EdgeInsets.all(0),
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 4 / 2,
+                                  crossAxisCount: 4,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  children: user.interest.map((elem) {
+                                    return FilledButton(
+                                      onPressed: null,
+                                      child: Text(elem),
+                                      style: OutlinedButton.styleFrom(
+                                        padding: EdgeInsets.only(
+                                          right: 0,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList()),
+
+                              // Text(
+                              // user.location,
+                              // style: theme.textTheme.titleMedium,
+                              // maxLines: 2,
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: TextButton(
+                          onPressed: () => {},
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             DetailPage(user)
+                          //
+                          //     )),
+                          child: const Text('more'))),
+                ],
+              )));
     }).toList();
   }
 
@@ -280,7 +484,7 @@ class HomePage extends StatelessWidget {
             child: GridView.count(
                 crossAxisCount: 1,
                 padding: const EdgeInsets.all(20.0),
-                childAspectRatio: 3 / 2,
+                childAspectRatio: 3 / 4,
                 children: _buildGridCards(context, myUsers)))
       ],
     );
