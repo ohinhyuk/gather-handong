@@ -208,7 +208,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPage extends State<SignUpPage> {
-  List<String> myInterest = [];
+  // List<String> myInterest = [];
   List<String> myAboutMe = [];
   List<String> myLifeStyle = [];
   List<String> myRelation = [];
@@ -234,25 +234,26 @@ class _SignUpPage extends State<SignUpPage> {
 
   SimpleAutoCompleteTextField? interestAutoCompleteTextField;
 
-  _SignUpPage() {
-    interestAutoCompleteTextField = SimpleAutoCompleteTextField(
-      key: key,
-      decoration: InputDecoration(
-        // icon: Icon(Icons.search),
-        hintText: '관심 태그를 검색',
-        // helperText: '간략하게 작성',
-        // counterText: 'ex) 서울특별시',
-      ),
-      controller: _interestController,
-      suggestions: interestList,
-      textChanged: (text) => {currentText = text},
-      clearOnSubmit: true,
-      textSubmitted: (text) => setState(() {
-        if (interestList.contains(text) && !myInterest.contains(text))
-          myInterest.add(text);
-      }),
-    );
-  }
+  // _SignUpPage() {
+  //   interestAutoCompleteTextField = SimpleAutoCompleteTextField(
+  //     key: key,
+  //     decoration: InputDecoration(
+  //       // icon: Icon(Icons.search),
+  //       hintText: '관심 태그를 검색',
+  //       // helperText: '간략하게 작성',
+  //       // counterText: 'ex) 서울특별시',
+  //     ),
+  //     controller: _interestController,
+  //     suggestions: interestList,
+  //     textChanged: (text) => {currentText = text},
+  //     clearOnSubmit: true,
+  //     textSubmitted: (text) => setState(() {
+  //       if (interestList.contains(text) && !myInterest.contains(text)) {
+  //         myInterest.add(text);
+  //       }
+  //     }),
+  //   );
+  // }
 
   final List<bool> _selectedSexes = <bool>[true, false];
 
@@ -265,6 +266,35 @@ class _SignUpPage extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<ApplicationState>();
+
+    interestAutoCompleteTextField = SimpleAutoCompleteTextField(
+        key: key,
+        decoration: InputDecoration(
+          // icon: Icon(Icons.search),
+          hintText: '관심 태그를 검색',
+          // helperText: '간략하게 작성',
+          // counterText: 'ex) 서울특별시',
+        ),
+        controller: _interestController,
+        suggestions: interestList,
+        textChanged: (text) => {currentText = text},
+        clearOnSubmit: true,
+        textSubmitted: (text) => {
+              if (interestList.contains(text) &&
+                  !appState.myInterest.contains(text))
+                {appState.addInterest(text)}
+            }
+        // setState(() {
+        // if (interestList.contains(text) && !myInterest.contains(text)) {
+        //   myInterest.add(text);
+        // }
+        // }
+
+        // ),
+
+        );
+
     var appState_watch = context.watch<ApplicationState>();
     // TODO: implement build
     return Scaffold(
@@ -406,12 +436,12 @@ class _SignUpPage extends State<SignUpPage> {
                   ListTile(
                     title: interestAutoCompleteTextField,
                   ),
-                  GridButtons(items: myInterest),
+                  GridButtons(items: appState.myInterest),
 
                   // Center(child: Text('나의 관심사를 골라주세요' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   //   color: Theme.of(context).colorScheme.onBackground,
                   // ),),),
-                  OptionGrid(interestList, ' ', 6, myInterest),
+                  OptionGrid(interestList, ' ', 6, appState.myInterest),
 
                   Padding(
                     padding: EdgeInsets.all(20),
@@ -480,7 +510,7 @@ class _SignUpPage extends State<SignUpPage> {
                                 sex: _selectedSexes[0] == true ? '남자' : '여자',
                                 location: _locationController.text,
                                 aboutMe: myAboutMe,
-                                interest: myInterest,
+                                interest: appState.myInterest,
                                 lifeStyle: myLifeStyle,
                                 profileImages: appState_watch.uploadImageUrl
                                     .where((item) => item.isNotEmpty)
@@ -629,8 +659,7 @@ class OptionGrid extends StatefulWidget {
   final String title;
   final int gridNum;
 
-  const OptionGrid(this.itemList, this.title, this.gridNum, this.myList,
-      {Key? key})
+  OptionGrid(this.itemList, this.title, this.gridNum, this.myList, {Key? key})
       : super(key: key);
 
   @override

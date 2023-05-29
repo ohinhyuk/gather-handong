@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/main.dart';
+import 'package:provider/provider.dart';
 
 class GridButtonsSignup extends StatefulWidget {
   final List<dynamic> items;
@@ -14,6 +16,7 @@ class GridButtonsSignup extends StatefulWidget {
 class _GridButtonsSignup extends State<GridButtonsSignup> {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<ApplicationState>();
     return Padding(
       padding: EdgeInsets.all(0),
       child: Wrap(
@@ -26,7 +29,9 @@ class _GridButtonsSignup extends State<GridButtonsSignup> {
                 ? FilledButton(
                     onPressed: () {
                       setState(() {
-                        widget.myItems.remove(elem);
+                        widget.items[0] == "서적"
+                            ? appState.removeInterest(elem)
+                            : widget.myItems.remove(elem);
                       });
                     },
                     child: Padding(
@@ -52,7 +57,10 @@ class _GridButtonsSignup extends State<GridButtonsSignup> {
                 : OutlinedButton(
                     onPressed: () {
                       setState(() {
-                        widget.myItems.add(elem);
+                        widget.items[0] == "서적"
+                            ? appState.addInterest(elem)
+                            : widget.myItems.add(elem);
+
                         print(widget.myItems);
                       });
                     },

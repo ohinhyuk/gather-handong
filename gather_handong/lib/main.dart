@@ -19,17 +19,29 @@ void main() async {
 }
 
 class ApplicationState extends ChangeNotifier {
-
   ApplicationState() {
     init();
   }
 
-  List<String> uploadImageUrl = ['' , '' , '', '', '', ''];
-  void addImage(String url, int index){
-      uploadImageUrl[index] = url;
-      notifyListeners();
+  List<String> myInterest = [];
+
+  void addInterest(String interest) {
+    myInterest.add(interest);
+    notifyListeners();
   }
-  void removeImage(int index){
+
+  void removeInterest(String interest) {
+    myInterest.remove(interest);
+    notifyListeners();
+  }
+
+  List<String> uploadImageUrl = ['', '', '', '', '', ''];
+  void addImage(String url, int index) {
+    uploadImageUrl[index] = url;
+    notifyListeners();
+  }
+
+  void removeImage(int index) {
     uploadImageUrl[index] = '';
     notifyListeners();
   }
