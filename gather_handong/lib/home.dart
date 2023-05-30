@@ -20,6 +20,8 @@ import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gather_handong/add.dart';
+import 'package:gather_handong/components/ButtomNavBar.dart';
+import 'package:gather_handong/components/DarkMode.dart';
 import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/detail.dart';
@@ -460,57 +462,8 @@ class HomePage extends StatelessWidget {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
-      floatingActionButton:
-          // FloatingActionButton(
-          //   onPressed: () {
-          //     // Navigator.push(
-          //     // context, MaterialPageRoute(builder: (context) => ModifyPage(product)),
-          //     // );
-          //   },
-          //   shape: CircleBorder(),
-          //   backgroundColor: Theme.of(context).colorScheme.primary,
-          //   child:
-          ToggleSwitch(
-        minWidth: 60.0,
-        minHeight: 40.0,
-        initialLabelIndex: appState.darkMode,
-        cornerRadius: 20.0,
-        activeFgColor: Colors.white,
-        inactiveBgColor: Colors.grey,
-        inactiveFgColor: Colors.white,
-        totalSwitches: 2,
-        icons: [
-          FontAwesomeIcons.moon,
-          FontAwesomeIcons.sun,
-        ],
-        iconSize: 30.0,
-        activeBgColors: [
-          [Colors.blue, Colors.black],
-          [Colors.yellow, Colors.orange]
-        ],
-        animate:
-            true, // with just animate set to true, default curve = Curves.easeIn
-        curve: Curves
-            .bounceInOut, // animate must be set to true when using custom curve
-        onToggle: (index) {
-          print('switched to: $index');
-          appState.changeDarkMode(index!);
-        },
-      ),
-      // ),
-      bottomNavigationBar: ConvexAppBar(
-          items: [
-            TabItem(icon: Icons.favorite, title: '매칭'),
-            TabItem(icon: Icons.people, title: '그룹매칭'),
-            TabItem(icon: Icons.chat_bubble, title: '채팅'),
-            TabItem(icon: Icons.person, title: '프로필'),
-          ],
-          height: 50,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          // style: TabStyle.react,
-          onTap: (int i) => {
-                if (i == 3) {Navigator.pushNamed(context, '/profile')}
-              }),
+      floatingActionButton: DarkMode(),
+      bottomNavigationBar: ButtomNavBar(),
 
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,

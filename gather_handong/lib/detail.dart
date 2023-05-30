@@ -43,10 +43,10 @@ class _DetailPageState extends State<DetailPage> {
               semanticLabel: 'modify',
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ModifyPage(widget.product)));
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => ModifyPage(widget.product)));
             },
           ),
           IconButton(

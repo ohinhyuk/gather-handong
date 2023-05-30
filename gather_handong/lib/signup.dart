@@ -202,10 +202,6 @@ const List<String> relationList = [
   '🤔아직 모르겠음'
 ];
 
-// const List<String>  aboutYouList = {
-//   ''
-// }
-
 const List<Widget> sexes = <Widget>[
   Text('남자'),
   Text('여자'),
@@ -225,19 +221,11 @@ class _SignUpPage extends State<SignUpPage> {
   List<String> myRelation = [];
   List<String> myImages = [];
 
-  // List<String> myEducation = [];
-  // List<String> myReligion = [];
-  // List<String> myContact = [];
-  // List<String> myLoveLanguage = [];
-  // List<String> myPriority = [];
   final _interestController = TextEditingController();
   final _nicknameController = TextEditingController();
   final _ageController = TextEditingController();
   final _locationController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _passwordController = TextEditingController();
 
-  // List<String> added = [];
   //거주지
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
 
@@ -245,31 +233,7 @@ class _SignUpPage extends State<SignUpPage> {
 
   SimpleAutoCompleteTextField? interestAutoCompleteTextField;
 
-  // _SignUpPage() {
-  //   interestAutoCompleteTextField = SimpleAutoCompleteTextField(
-  //     key: key,
-  //     decoration: InputDecoration(
-  //       // icon: Icon(Icons.search),
-  //       hintText: '관심 태그를 검색',
-  //       // helperText: '간략하게 작성',
-  //       // counterText: 'ex) 서울특별시',
-  //     ),
-  //     controller: _interestController,
-  //     suggestions: interestList,
-  //     textChanged: (text) => {currentText = text},
-  //     clearOnSubmit: true,
-  //     textSubmitted: (text) => setState(() {
-  //       if (interestList.contains(text) && !myInterest.contains(text)) {
-  //         myInterest.add(text);
-  //       }
-  //     }),
-  //   );
-  // }
-
   int _selectedSex = 0;
-
-  // final _sexList = ['남성' , '여성'];
-  // var _selectedValue = '남성';
 
   final firebaseRef = FirebaseStorage.instance.ref();
 
@@ -282,10 +246,7 @@ class _SignUpPage extends State<SignUpPage> {
     interestAutoCompleteTextField = SimpleAutoCompleteTextField(
         key: key,
         decoration: InputDecoration(
-          // icon: Icon(Icons.search),
           hintText: '관심 태그를 검색',
-          // helperText: '간략하게 작성',
-          // counterText: 'ex) 서울특별시',
         ),
         controller: _interestController,
         suggestions: interestList,
@@ -391,12 +352,6 @@ class _SignUpPage extends State<SignUpPage> {
                       ),
                       controller: _locationController,
                       keyboardType: TextInputType.number,
-                      // decoration: InputDecoration(
-                      //   filled: true,
-                      //   // border: OutlineInputBorder(),
-                      //   fillColor: Theme.of(context).colorScheme.background,
-                      //   labelText: '거주지',
-                      // ),
                     ),
                   ),
                   Padding(
@@ -430,32 +385,6 @@ class _SignUpPage extends State<SignUpPage> {
                               print('switched to: $index');
                             },
                           ),
-                          // ToggleButtons(
-                          //   direction: Axis.horizontal,
-                          //   onPressed: (int index) {
-                          //     setState(() {
-                          //       // The button that is tapped is set to true, and the others to false.
-                          //       for (int i = 0;
-                          //           i < _selectedSexes.length;
-                          //           i++) {
-                          //         _selectedSexes[i] = i == index;
-                          //       }
-                          //       print(_selectedSexes);
-                          //     });
-                          //   },
-                          //   borderRadius:
-                          //       const BorderRadius.all(Radius.circular(8)),
-                          //   selectedBorderColor: Colors.red[700],
-                          //   selectedColor: Colors.white,
-                          //   fillColor: Colors.red[200],
-                          //   color: Colors.red[400],
-                          //   constraints: const BoxConstraints(
-                          //     minHeight: 40.0,
-                          //     minWidth: 80.0,
-                          //   ),
-                          //   isSelected: _selectedSexes,
-                          //   children: sexes,
-                          // ),
                         ],
                       )),
                   Padding(
@@ -558,22 +487,9 @@ class _SignUpPage extends State<SignUpPage> {
                       ),
                     ),
                   ),
-
-                  // Center(child: Text('나의 라이프 스타일을 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  //   color: Theme.of(context).colorScheme.onBackground,
-                  // ),),),
-
-                  // Center(child: Text('' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  //   color: Theme.of(context).colorScheme.onBackground,
-                  // ),),),
-                  // OptionGrid(interestList , ' ' , 6),
                 ],
               ),
-            )
-
-            // )
-
-            ));
+            )));
   }
 }
 
@@ -584,9 +500,6 @@ class ImageGrid extends StatefulWidget {
 
 class _ImageGrid extends State<ImageGrid> {
   final firebaseRef = FirebaseStorage.instance.ref();
-
-  // var appState =
-  // List<String> uploadImageUrl = ['' , '' , '', '', '', ''];
 
   @override
   Widget build(BuildContext context) {
@@ -717,52 +630,6 @@ class _OptionGrid extends State<OptionGrid> {
                   ),
             ),
             GridButtonsSignup(items: widget.itemList, myItems: widget.myList)
-            // GridView.count(
-            //   mainAxisSpacing: 15,
-            //   crossAxisSpacing: 10,
-            //   childAspectRatio: 3 / 1,
-            //   crossAxisCount: 4,
-            //   shrinkWrap: true,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   children: widget.itemList!.map((mbti) {
-            //     return Container(
-            //       child: widget.myList.contains(mbti)
-            //           ? FilledButton(
-            //               onPressed: () {
-            //                 widget.myList.remove(mbti);
-            //                 setState(() {});
-            //               },
-            //               child: Text(
-            //                 mbti,
-            //                 style: TextStyle(
-            //                   fontSize: 13,
-            //                 ),
-            //               ),
-            //               style: OutlinedButton.styleFrom(
-            //                 padding: EdgeInsets.only(
-            //                   right: 0,
-            //                 ),
-            //               ),
-            //             )
-            //           : OutlinedButton(
-            //               onPressed: () {
-            //                 widget.myList.add(mbti);
-            //                 setState(() {});
-            //               },
-            //               child: Text(
-            //                 mbti,
-            //                 style: TextStyle(
-            //                   fontSize: 13,
-            //                 ),
-            //               ),
-            //               style: OutlinedButton.styleFrom(
-            //                 padding: EdgeInsets.only(
-            //                   right: 0,
-            //                 ),
-            //               ),
-            //             ));
-            // }).toList(),
-            // ),
           ],
         ));
   }

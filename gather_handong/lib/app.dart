@@ -14,6 +14,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/modify.dart';
 import 'package:gather_handong/profile.dart';
 import 'package:gather_handong/signup.dart';
 import 'package:gather_handong/theme/theme.dart';

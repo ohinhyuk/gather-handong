@@ -23,6 +23,13 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
+  int initNum = 1;
+
+  void setInitNum(int index) {
+    initNum = index;
+    notifyListeners();
+  }
+
   int darkMode = 1;
 
   void changeDarkMode(int index) {
