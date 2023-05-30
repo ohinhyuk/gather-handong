@@ -25,7 +25,9 @@ dependencies:
   card_swiper: ^2.0.4
   flash_card: ^0.0.5
   autocomplete_textfield: ^2.0.1
-
+  font_awesome_flutter: ^10.4.0
+  shadow_overlay: ^1.0.5
+  toggle_switch: ^2.1.0
 
 dev_dependencies:
   flutter_test:

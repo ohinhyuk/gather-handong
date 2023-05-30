@@ -64,20 +64,19 @@ class myUser {
   }
 
   Map<String, dynamic> toJson() => {
-    // id 부분 유심히 보기
-    'uid' : uid,
-    'nickname' : nickname,
-    'email' : email,
-    'age' : age,
-    'sex' : sex,
-    'location' : location,
-    'aboutMe' : aboutMe,
-    'interest' : interest,
-    'lifeStyle' : lifeStyle,
-    'profileImages' : profileImages,
-    // 'aboutYou' : aboutYou,
-    'relation' : relation,
-    'likes' : likes
-
-  };
+        // id 부분 유심히 보기
+        'uid': uid,
+        'nickname': nickname,
+        'email': email,
+        'age': age,
+        'sex': sex,
+        'location': location,
+        'aboutMe': aboutMe,
+        'interest': interest,
+        'lifeStyle': lifeStyle,
+        'profileImages': profileImages,
+        // 'aboutYou' : aboutYou,
+        'relation': relation,
+        'likes': likes
+      };
 }

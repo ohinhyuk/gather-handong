@@ -9,6 +9,7 @@ import 'package:gather_handong/main.dart';
 import 'package:gather_handong/modify.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shadow_overlay/shadow_overlay.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -87,23 +88,34 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     Swiper(
                       itemBuilder: (BuildContext context, int index) {
-                        return Image.network(
-                          snapshot.data!.get('profileImages')[index],
-                          fit: BoxFit.fill,
+                        return ShadowOverlay(
+                          shadowColor: Colors.black,
+                          child: Image.network(
+                            snapshot.data!.get('profileImages')[index],
+                            fit: BoxFit.cover,
+                            height: 300,
+                            width: 400,
+                          ),
+                          shadowWidth: 400,
+                          shadowHeight: 200,
                         );
+                        //   Image.network(
+                        //   snapshot.data!.get('profileImages')[index],
+                        //   fit: BoxFit.fill,
+                        // );
                       },
                       // scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.get('profileImages').length,
-                      itemWidth: 300.0,
-                      itemHeight: 350.0,
+                      itemWidth: 400,
+                      itemHeight: 300.0,
                       layout: SwiperLayout.CUSTOM,
                       customLayoutOption:
                           CustomLayoutOption(startIndex: -1, stateCount: 3)
                             // ..addRotate([-45.0 / 180, 0.0, 45.0 / 180])
                             ..addTranslate([
-                              Offset(-370.0, -40.0),
+                              Offset(-440.0, -40.0),
                               Offset(0.0, 0.0),
-                              Offset(370.0, -40.0)
+                              Offset(440.0, -40.0)
                             ]),
                       // layout: SwiperLayout.TINDER,
                       pagination: SwiperPagination(),

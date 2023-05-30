@@ -6,12 +6,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gather_handong/app.dart';
 import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/components/GridButtonsSignup.dart';
 import 'package:gather_handong/main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import 'controller/FirebaseController.dart';
 import 'model/myUser.dart';
@@ -156,30 +158,39 @@ const Map<String, List<String>> aboutMeList = {
   'BloodType': ['A형', 'B형', 'AB형', 'O형'],
   'Religion': ['기독교', '천주교', '불교', '이슬람', '힌두교', '타종교'],
   'ContactType': [
-    '카톡 자주 하는 편',
-    '전화 선호함',
-    '영상 통화 선호함',
-    '카톡 별로 안하는 편',
-    '직접 만나는 걸 선호함'
+    '📱카톡 자주 하는 편',
+    '📞전화 선호함',
+    '🖥영상 통화 선호함',
+    '📱카톡 별로 안하는 편',
+    '👫직접 만나는 걸 선호함'
   ],
-  'loveLanguage': ['배려심 깊은 행동', '선물', '스킨십', '칭찬', '함께 보내는 시간'],
-  'Priority': ['일', '학업', '건강', '연애', '가족', '취미', '휴식', '자기 개발']
+  'loveLanguage': ['✨배려심 깊은 행동', '🎁선물', '🤝스킨십', '👏칭찬', '👩‍❤️👨‍함께 보내는 시간'],
+  'Priority': [
+    '👔일',
+    '✏학업',
+    '😀건강',
+    '❤연애',
+    '️👨‍👩‍👧‍👧가족',
+    '🚀취미',
+    '💤휴식',
+    '💥자기 개발'
+  ]
 };
 
 const Map<String, List<String>> lifeStyleList = {
   'Drink': [
-    '아예 안마심',
-    '가끔 마심',
-    '자주 마심',
-    '매일 마심',
-    '혼술할 정도로 좋아하는 편',
-    '친구들 만날 때만 마시는 편',
-    '현재 금주 중'
+    '🍺아예 안마심',
+    '🍺가끔 마심',
+    '🍺자주 마심',
+    '🍺매일 마심',
+    '🍺혼술할 정도로 좋아하는 편',
+    '🍺친구들 만날 때만 마시는 편',
+    '🍺현재 금주 중'
   ],
-  'Smoke': ['비흡연', '흡연', '금연 중'],
-  'WorkOut': ['매일', '자주', '가끔', '안함'],
-  'SNS': ['인플루언서', '자주 활동함', '가끔 활동함', '눈팅족', '안함'],
-  'Sleep': ['아침형 인간', '야행성', '때에 따라 다름'],
+  'Smoke': ['🚭비흡연', '🚬흡연', '🚭금연 중'],
+  'WorkOut': ['🏋️‍️매일', '🏋자주', '🏋가끔', '🏋안함'],
+  'SNS': ['📱인플루언서', '📱자주 활동함', '📱가끔 활동함', '📱눈팅족', '📵sns 안함'],
+  'Sleep': ['😴아침형 인간', '😴야행성', '😴때에 따라 다름'],
 };
 
 const List<String> relationList = [
@@ -255,7 +266,7 @@ class _SignUpPage extends State<SignUpPage> {
   //   );
   // }
 
-  final List<bool> _selectedSexes = <bool>[true, false];
+  int _selectedSex = 0;
 
   // final _sexList = ['남성' , '여성'];
   // var _selectedValue = '남성';
@@ -397,31 +408,54 @@ class _SignUpPage extends State<SignUpPage> {
                           SizedBox(
                             width: 40,
                           ),
-                          ToggleButtons(
-                            direction: Axis.horizontal,
-                            onPressed: (int index) {
-                              setState(() {
-                                // The button that is tapped is set to true, and the others to false.
-                                for (int i = 0;
-                                    i < _selectedSexes.length;
-                                    i++) {
-                                  _selectedSexes[i] = i == index;
-                                }
-                              });
+                          ToggleSwitch(
+                            minWidth: 90.0,
+                            initialLabelIndex: 1,
+                            cornerRadius: 20.0,
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.grey,
+                            inactiveFgColor: Colors.white,
+                            totalSwitches: 2,
+                            labels: ['남자', '여자'],
+                            icons: [
+                              FontAwesomeIcons.mars,
+                              FontAwesomeIcons.venus
+                            ],
+                            activeBgColors: [
+                              [Colors.blue],
+                              [Colors.pink]
+                            ],
+                            onToggle: (index) {
+                              _selectedSex = index!;
+                              print('switched to: $index');
                             },
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            selectedBorderColor: Colors.red[700],
-                            selectedColor: Colors.white,
-                            fillColor: Colors.red[200],
-                            color: Colors.red[400],
-                            constraints: const BoxConstraints(
-                              minHeight: 40.0,
-                              minWidth: 80.0,
-                            ),
-                            isSelected: _selectedSexes,
-                            children: sexes,
                           ),
+                          // ToggleButtons(
+                          //   direction: Axis.horizontal,
+                          //   onPressed: (int index) {
+                          //     setState(() {
+                          //       // The button that is tapped is set to true, and the others to false.
+                          //       for (int i = 0;
+                          //           i < _selectedSexes.length;
+                          //           i++) {
+                          //         _selectedSexes[i] = i == index;
+                          //       }
+                          //       print(_selectedSexes);
+                          //     });
+                          //   },
+                          //   borderRadius:
+                          //       const BorderRadius.all(Radius.circular(8)),
+                          //   selectedBorderColor: Colors.red[700],
+                          //   selectedColor: Colors.white,
+                          //   fillColor: Colors.red[200],
+                          //   color: Colors.red[400],
+                          //   constraints: const BoxConstraints(
+                          //     minHeight: 40.0,
+                          //     minWidth: 80.0,
+                          //   ),
+                          //   isSelected: _selectedSexes,
+                          //   children: sexes,
+                          // ),
                         ],
                       )),
                   Padding(
@@ -436,13 +470,12 @@ class _SignUpPage extends State<SignUpPage> {
                   ListTile(
                     title: interestAutoCompleteTextField,
                   ),
-                  GridButtons(items: appState.myInterest),
-
-                  // Center(child: Text('나의 관심사를 골라주세요' , style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  //   color: Theme.of(context).colorScheme.onBackground,
-                  // ),),),
-                  OptionGrid(interestList, ' ', 6, appState.myInterest),
-
+                  ListTile(
+                    leading: Icon(Icons.shopping_cart),
+                    title: GridButtons(items: appState.myInterest),
+                  ),
+                  OptionGrid(
+                      interestList, '관심사 키워드 목록', 6, appState.myInterest),
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: Divider(
@@ -507,7 +540,7 @@ class _SignUpPage extends State<SignUpPage> {
                                     as String,
                                 nickname: _nicknameController.text,
                                 age: int.parse(_ageController.text),
-                                sex: _selectedSexes[0] == true ? '남자' : '여자',
+                                sex: _selectedSex == 0 ? '남자' : '여자',
                                 location: _locationController.text,
                                 aboutMe: myAboutMe,
                                 interest: appState.myInterest,
@@ -670,7 +703,7 @@ class _OptionGrid extends State<OptionGrid> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
         child: Column(
           children: [
             Text(

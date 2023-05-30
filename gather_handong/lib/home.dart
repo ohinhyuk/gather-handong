@@ -18,6 +18,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gather_handong/add.dart';
 import 'package:gather_handong/components/GridButtons.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
@@ -28,6 +29,7 @@ import 'package:gather_handong/profile.dart';
 import 'package:gather_handong/wishlist.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import 'model/product.dart';
 import 'model/products_repository.dart';
@@ -453,6 +455,41 @@ class HomePage extends StatelessWidget {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigator.push(
+          // context, MaterialPageRoute(builder: (context) => ModifyPage(product)),
+          // );
+        },
+        shape: CircleBorder(),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: ToggleSwitch(
+          minWidth: 90.0,
+          minHeight: 70.0,
+          initialLabelIndex: 0,
+          cornerRadius: 20.0,
+          activeFgColor: Colors.white,
+          inactiveBgColor: Colors.grey,
+          inactiveFgColor: Colors.white,
+          totalSwitches: 2,
+          icons: [
+            FontAwesomeIcons.lightbulb,
+            FontAwesomeIcons.solidLightbulb,
+          ],
+          iconSize: 30.0,
+          activeBgColors: [
+            [Colors.black45, Colors.black26],
+            [Colors.yellow, Colors.orange]
+          ],
+          animate:
+              true, // with just animate set to true, default curve = Curves.easeIn
+          curve: Curves
+              .bounceInOut, // animate must be set to true when using custom curve
+          onToggle: (index) {
+            print('switched to: $index');
+          },
+        ),
+      ),
       bottomNavigationBar: ConvexAppBar(
           items: [
             TabItem(icon: Icons.favorite, title: '매칭'),
