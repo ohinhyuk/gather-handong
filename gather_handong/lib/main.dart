@@ -23,6 +23,13 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
+  int darkMode = 1;
+
+  void changeDarkMode(int index) {
+    darkMode = index;
+    notifyListeners();
+  }
+
   List<String> myInterest = [];
 
   void addInterest(String interest) {

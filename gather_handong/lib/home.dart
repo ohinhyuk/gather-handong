@@ -455,41 +455,44 @@ class HomePage extends StatelessWidget {
     // TODO: Return an AsymmetricView (104)
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.push(
-          // context, MaterialPageRoute(builder: (context) => ModifyPage(product)),
-          // );
+      floatingActionButton:
+          // FloatingActionButton(
+          //   onPressed: () {
+          //     // Navigator.push(
+          //     // context, MaterialPageRoute(builder: (context) => ModifyPage(product)),
+          //     // );
+          //   },
+          //   shape: CircleBorder(),
+          //   backgroundColor: Theme.of(context).colorScheme.primary,
+          //   child:
+          ToggleSwitch(
+        minWidth: 60.0,
+        minHeight: 40.0,
+        initialLabelIndex: appState.darkMode,
+        cornerRadius: 20.0,
+        activeFgColor: Colors.white,
+        inactiveBgColor: Colors.grey,
+        inactiveFgColor: Colors.white,
+        totalSwitches: 2,
+        icons: [
+          FontAwesomeIcons.moon,
+          FontAwesomeIcons.sun,
+        ],
+        iconSize: 30.0,
+        activeBgColors: [
+          [Colors.blue, Colors.black],
+          [Colors.yellow, Colors.orange]
+        ],
+        animate:
+            true, // with just animate set to true, default curve = Curves.easeIn
+        curve: Curves
+            .bounceInOut, // animate must be set to true when using custom curve
+        onToggle: (index) {
+          print('switched to: $index');
+          appState.changeDarkMode(index!);
         },
-        shape: CircleBorder(),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        child: ToggleSwitch(
-          minWidth: 90.0,
-          minHeight: 70.0,
-          initialLabelIndex: 0,
-          cornerRadius: 20.0,
-          activeFgColor: Colors.white,
-          inactiveBgColor: Colors.grey,
-          inactiveFgColor: Colors.white,
-          totalSwitches: 2,
-          icons: [
-            FontAwesomeIcons.lightbulb,
-            FontAwesomeIcons.solidLightbulb,
-          ],
-          iconSize: 30.0,
-          activeBgColors: [
-            [Colors.black45, Colors.black26],
-            [Colors.yellow, Colors.orange]
-          ],
-          animate:
-              true, // with just animate set to true, default curve = Curves.easeIn
-          curve: Curves
-              .bounceInOut, // animate must be set to true when using custom curve
-          onToggle: (index) {
-            print('switched to: $index');
-          },
-        ),
       ),
+      // ),
       bottomNavigationBar: ConvexAppBar(
           items: [
             TabItem(icon: Icons.favorite, title: '매칭'),

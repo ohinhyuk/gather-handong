@@ -48,7 +48,8 @@ class App extends StatelessWidget {
       // TODO: Customize the theme (103)
       theme: ThemeData(
           useMaterial3: true,
-          colorScheme: lightColorScheme,
+          colorScheme:
+              appState.darkMode == 0 ? darkColorScheme : lightColorScheme,
           textTheme: const TextTheme(
             titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             titleMedium: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
