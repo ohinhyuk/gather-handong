@@ -326,7 +326,7 @@ class _SignUpPage extends State<SignUpPage> {
             padding: EdgeInsets.only(left: 30, right: 30, top: 50, bottom: 50),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(
                     15.0), // 테두리를 round 처리하기 위한 BorderRadius 설정
               ),
@@ -531,28 +531,32 @@ class _SignUpPage extends State<SignUpPage> {
                   ImageGrid(),
 
                   Center(
-                    child: ElevatedButton(
-                        onPressed: () => {
-                              Navigator.pushNamed(context, "/"),
-                              FirebaseController.myUserAdd(myUser(
-                                uid: FirebaseAuth.instance.currentUser!.uid,
-                                email: FirebaseAuth.instance.currentUser!.email
-                                    as String,
-                                nickname: _nicknameController.text,
-                                age: int.parse(_ageController.text),
-                                sex: _selectedSex == 0 ? '남자' : '여자',
-                                location: _locationController.text,
-                                aboutMe: myAboutMe,
-                                interest: appState.myInterest,
-                                lifeStyle: myLifeStyle,
-                                profileImages: appState_watch.uploadImageUrl
-                                    .where((item) => item.isNotEmpty)
-                                    .toList(),
-                                relation: myRelation[0],
-                                likes: [],
-                              ))
-                            },
-                        child: Text('가입 하기')),
+                    child: FilledButton(
+                      onPressed: () => {
+                        Navigator.pushNamed(context, "/"),
+                        FirebaseController.myUserAdd(myUser(
+                          uid: FirebaseAuth.instance.currentUser!.uid,
+                          email: FirebaseAuth.instance.currentUser!.email
+                              as String,
+                          nickname: _nicknameController.text,
+                          age: int.parse(_ageController.text),
+                          sex: _selectedSex == 0 ? '남자' : '여자',
+                          location: _locationController.text,
+                          aboutMe: myAboutMe,
+                          interest: appState.myInterest,
+                          lifeStyle: myLifeStyle,
+                          profileImages: appState_watch.uploadImageUrl
+                              .where((item) => item.isNotEmpty)
+                              .toList(),
+                          relation: myRelation[0],
+                          likes: [],
+                        ))
+                      },
+                      child: Text(
+                        '가입 하기',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ),
                   ),
 
                   // Center(child: Text('나의 라이프 스타일을 추가해주세요😀' , style: Theme.of(context).textTheme.titleLarge?.copyWith(

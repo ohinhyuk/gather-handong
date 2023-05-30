@@ -53,6 +53,7 @@ class HomePage extends StatelessWidget {
           width: 400,
           height: 800,
           frontWidget: Card(
+              color: theme.colorScheme.surface,
               clipBehavior: Clip.antiAlias,
               // TODO: Adjust card heights (103)
               child: Stack(
@@ -123,7 +124,9 @@ class HomePage extends StatelessWidget {
                                               user.age.toString(),
                                           style: TextStyle(
                                               fontSize: 20,
-                                              color: Colors.grey[700],
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .shadow,
                                               fontWeight: FontWeight.w700),
                                           maxLines: 1,
                                         ),
@@ -288,7 +291,9 @@ class HomePage extends StatelessWidget {
                                               user.age.toString(),
                                           style: TextStyle(
                                               fontSize: 20,
-                                              color: Colors.grey[700],
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .shadow,
                                               fontWeight: FontWeight.w700),
                                           maxLines: 1,
                                         ),
@@ -520,9 +525,10 @@ class HomePage extends StatelessWidget {
         //         MaterialPageRoute(builder: (context) => ProfilePage()));
         //   },
         // ),
+
         title: Text(
           '모여라 한동',
-          style: TextStyle(color: Theme.of(context).colorScheme.background),
+          style: TextStyle(color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(

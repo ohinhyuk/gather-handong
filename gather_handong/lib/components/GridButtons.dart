@@ -28,7 +28,7 @@ class GridButtons extends StatelessWidget {
               ),
             ),
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               side: BorderSide(
                 width: 1.0,
                 color: Theme.of(context).colorScheme.primary,
