@@ -29,9 +29,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -55,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     var appState = context.watch<ApplicationState>();
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -62,71 +60,59 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Image.asset('assets/diamond.png'),
-                const SizedBox(height: 16.0),
-                const Text('SHRINE'),
+                Image.asset(
+                  'assets/images/logo_gather_handong.png',
+                  // width: 200,
+                  width: 200,
+                  scale: 0.7, // 이미지의 너비를 설정합니다.
+                  height: 130,
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  '모여라 한동',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-            const SizedBox(height: 120.0),
+            const SizedBox(height: 80.0),
             // TODO: Remove filled: true values (103)
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                filled: true,
-                labelText: 'Username',
+            Center(
+              child: Text(
+                '고린도전서 16:14',
               ),
             ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                filled: true,
-                labelText: 'Password',
-              ),
-              obscureText: true,
+            Center(
+              child: Text('너희 모든 일을 사랑으로 행하라'),
             ),
-            const SizedBox(height: 12.0),
+            const SizedBox(height: 50.0),
             OverflowBar(
               alignment: MainAxisAlignment.end,
               children: <Widget>[
                 // TODO: Add a beveled rectangular border to CANCEL (103)
-                TextButton(
-                  child: const Text('CANCEL'),
-                  onPressed: () {
-                    _usernameController.clear();
-                    _passwordController.clear();
-                  },
-                ),
+
                 // TODO: Add an elevation to NEXT (103)
                 // TODO: Add a beveled rectangular border to NEXT (103)
-                ElevatedButton(
-                  child: const Text('NEXT'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text('Google'),
-                  onPressed: () async => {
-                    await signInWithGoogle(),
-                    FirebaseController.userAdd(UserDB(
-                        uid: FirebaseAuth.instance.currentUser!.uid,
-                        email:
-                            FirebaseAuth.instance.currentUser!.email as String,
-                        name: FirebaseAuth.instance.currentUser!.displayName
-                            as String,
-                        status_message:
-                            'I promise to take the test honestly before GOD .')),
-                    appState.changeLoggedIn(true),
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text('익명로그인'),
-                  onPressed: () async => {
-                    await FirebaseAuth.instance.signInAnonymously(),
-                    appState.changeLoggedIn(true)
-                  },
-                ),
+                Container(
+                  child: ElevatedButton(
+                    child: const Text('Google'),
+                    onPressed: () async => {
+                      await signInWithGoogle(),
+                      FirebaseController.userAdd(UserDB(
+                          uid: FirebaseAuth.instance.currentUser!.uid,
+                          email: FirebaseAuth.instance.currentUser!.email
+                              as String,
+                          name: FirebaseAuth.instance.currentUser!.displayName
+                              as String,
+                          status_message:
+                              'I promise to take the test honestly before GOD .')),
+                      appState.changeLoggedIn(true),
+                    },
+                  ),
+                  width: 400,
+                )
               ],
             ),
           ],
@@ -135,4 +121,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

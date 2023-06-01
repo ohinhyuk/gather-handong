@@ -248,12 +248,6 @@ class _ModifyPage extends State<ModifyPage> {
     _ageController.text = widget.user.get('age').toString();
     _locationController.text = widget.user.get('location');
     _selectedSex = widget.user.get('sex') == "남자" ? 0 : 1;
-
-    // List<dynamic> interests = widget.user.get('interest') ?? [];
-    // List<String> stringInterests =
-    //     interests.map((item) => item.toString()).toList();
-    //
-    // appState.copyInterest(stringInterests);
     appState.myInterest = widget.user
         .get('interest')
         .map((dynamic item) => item.toString())
@@ -263,7 +257,7 @@ class _ModifyPage extends State<ModifyPage> {
     myAboutMe = widget.user.get('aboutMe').cast<String>();
     myLifeStyle = widget.user.get('lifeStyle').cast<String>();
     myRelation.add(widget.user.get('relation'));
-    myImages = widget.user.get('profileImages').cast<String>();
+    appState.copyImages(widget.user.get('profileImages').cast<String>());
 
     interestAutoCompleteTextField = SimpleAutoCompleteTextField(
         key: key,
@@ -278,16 +272,7 @@ class _ModifyPage extends State<ModifyPage> {
               if (interestList.contains(text) &&
                   !appState.myInterest.contains(text))
                 {appState.addInterest(text)}
-            }
-        // setState(() {
-        // if (interestList.contains(text) && !myInterest.contains(text)) {
-        //   myInterest.add(text);
-        // }
-        // }
-
-        // ),
-
-        );
+            });
 
     var appState_watch = context.watch<ApplicationState>();
     // TODO: implement build
@@ -301,7 +286,7 @@ class _ModifyPage extends State<ModifyPage> {
             },
           ),
           title: Text(
-            '회원 가입',
+            '프로필 수정',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -504,7 +489,7 @@ class _ModifyPage extends State<ModifyPage> {
                         ))
                       },
                       child: Text(
-                        '가입 하기',
+                        '수정 완료',
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
@@ -541,10 +526,6 @@ class _ImageGrid extends State<ImageGrid> {
 
       ref.getDownloadURL().then((value) => {
             appState_read.addImage(value, index),
-            // uploadImageUrl[index] = value,
-            // print( appState_watch.uploadImageUrl[index] + value),
-            // setState(() {
-            // })
           });
     }
 

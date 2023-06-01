@@ -65,6 +65,15 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void copyImages(List<String> storedImages) {
+    uploadImageUrl = storedImages;
+    var length = uploadImageUrl.length;
+    for (var i = 0; i < 6 - length; ++i) {
+      uploadImageUrl.add('');
+    }
+    notifyListeners();
+  }
+
   List<Product> cart = [];
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
