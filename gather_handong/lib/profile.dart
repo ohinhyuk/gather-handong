@@ -130,11 +130,15 @@ class ProfilePage extends StatelessWidget {
                                   backgroundColor:
                                       Theme.of(context).colorScheme.tertiary,
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ModifyPage(
-                                                user: snapshot!.data!)));
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      if (snapshot.data != null) {
+                                        print(snapshot.data);
+                                        return ModifyPage(user: snapshot.data!);
+                                      } else {
+                                        return Scaffold();
+                                      }
+                                    }));
                                   },
                                   child: const Icon(Icons.edit),
                                 ),

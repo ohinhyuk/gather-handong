@@ -49,6 +49,11 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void copyInterest(List<String> storedInterests) {
+    myInterest = storedInterests;
+    notifyListeners();
+  }
+
   List<String> uploadImageUrl = ['', '', '', '', '', ''];
   void addImage(String url, int index) {
     uploadImageUrl[index] = url;

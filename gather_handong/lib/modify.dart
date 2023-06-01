@@ -209,9 +209,8 @@ const List<Widget> sexes = <Widget>[
 ];
 
 class ModifyPage extends StatefulWidget {
-  const ModifyPage({Key? key, required this.user}) : super(key: key);
-
-  final DocumentSnapshot<Object?> user;
+  DocumentSnapshot<Object?> user;
+  ModifyPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _ModifyPage createState() => _ModifyPage();
@@ -229,13 +228,6 @@ class _ModifyPage extends State<ModifyPage> {
   final _ageController = TextEditingController();
   final _locationController = TextEditingController();
 
-  _ModifyPage() {
-    myAboutMe = widget.user.get('aboutMe').cast<String>();
-    myLifeStyle = widget.user.get('lifeStyle').cast<String>();
-    myRelation.add(widget.user.get('relation'));
-    myImages = widget.user.get('profileImages').cast<String>();
-  }
-
   //거주지
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
 
@@ -252,6 +244,26 @@ class _ModifyPage extends State<ModifyPage> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<ApplicationState>();
+    _nicknameController.text = widget.user.get('nickname');
+    _ageController.text = widget.user.get('age').toString();
+    _locationController.text = widget.user.get('location');
+    _selectedSex = widget.user.get('sex') == "남자" ? 0 : 1;
+
+    // List<dynamic> interests = widget.user.get('interest') ?? [];
+    // List<String> stringInterests =
+    //     interests.map((item) => item.toString()).toList();
+    //
+    // appState.copyInterest(stringInterests);
+    appState.myInterest = widget.user
+        .get('interest')
+        .map((dynamic item) => item.toString())
+        .toList()
+        .cast<String>();
+
+    myAboutMe = widget.user.get('aboutMe').cast<String>();
+    myLifeStyle = widget.user.get('lifeStyle').cast<String>();
+    myRelation.add(widget.user.get('relation'));
+    myImages = widget.user.get('profileImages').cast<String>();
 
     interestAutoCompleteTextField = SimpleAutoCompleteTextField(
         key: key,
