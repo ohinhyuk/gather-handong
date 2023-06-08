@@ -1,46 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gather_handong/model/Message.dart';
 import 'package:gather_handong/model/myUser.dart';
 
 class ChatRoom {
   String chatRoomId;
-  // myUser connector;
-  // myUser contact;
   List<String> users;
-  List<Message> messages;
+  List<Map<String, String>> messages;
 
   ChatRoom(
       {required this.chatRoomId, required this.users, required this.messages});
 
-  factory ChatRoom.fromJson(Map<dynamic, dynamic> json) {
+  factory ChatRoom.fromJson(Map<String, dynamic> json) {
     return ChatRoom(
-        chatRoomId: json['chatRoomId'],
-        users: json['users'],
-        messages: json['messages']
-            .map((message) => Message.fromJson(message))
-            .toList());
+      chatRoomId: json['chatRoomId'],
+      users: List<String>.from(json['users']),
+      messages: List<Map<String, String>>.from(json['messages']
+          .map((messageMap) => Map<String, String>.from(messageMap ?? {}))),
+    );
+  }
+
+  factory ChatRoom.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+    return ChatRoom(
+      chatRoomId: snapshot['chatRoomId'],
+      users: List<String>.from(snapshot['users']),
+      messages: List<Map<String, String>>.from(snapshot['messages']
+          .map((messageMap) => Map<String, String>.from(messageMap ?? {}))),
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'chatRoomId': chatRoomId,
       'users': users,
-      'messages': messages.map((message) => message.toJson()).toList()
+      'messages':
+          messages.map((message) => Map<String, dynamic>.from(message)).toList()
     };
-  }
-
-  factory ChatRoom.fromDocumentSnapshot(DocumentSnapshot snapshot) {
-    final List<Message> message = [];
-    final messageSnapshot = List<Map>.from(snapshot['messages'] as List);
-    for (var e in messageSnapshot) {
-      message.add(Message.fromJson(e as Map<String, dynamic>));
-    }
-    return ChatRoom(
-        chatRoomId: snapshot['chatRoomId'],
-        // connector:
-        //     myUser.fromJson(snapshot['connector' as Map<String, dynamic>]),
-        // contact: myUser.fromJson(snapshot['contact'] as Map<String, dynamic>),
-        users: snapshot['users'],
-        messages: message);
   }
 }

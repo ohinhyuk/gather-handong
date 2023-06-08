@@ -5,27 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 class ChatBubbleWidget extends StatelessWidget {
-  final Message message;
+  final String content;
+  final String idFrom;
+
   //  메세지 정보
   // 유저정보 currentuser
   // 비교 후
   // 나 이면 내쪽으로 아니면 상대방 쪽으로
-  ChatBubbleWidget({required this.message});
+  ChatBubbleWidget({required this.content, required this.idFrom});
 
   @override
   Widget build(BuildContext context) {
-    return (message.idFrom == FirebaseAuth.instance.currentUser!.uid)
+    return (idFrom == FirebaseAuth.instance.currentUser!.uid)
         ? Container(
             child: getSenderView(
                 ChatBubbleClipper1(type: BubbleType.sendBubble),
                 context,
-                message.content),
+                content),
           )
         : Container(
             child: getReceiverView(
                 ChatBubbleClipper1(type: BubbleType.receiverBubble),
                 context,
-                message.content),
+                content),
           );
   }
 
