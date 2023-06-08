@@ -14,6 +14,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/ChatPage.dart';
 import 'package:gather_handong/modify.dart';
 import 'package:gather_handong/profile.dart';
 import 'package:gather_handong/signup.dart';
@@ -42,6 +43,7 @@ class App extends StatelessWidget {
         '/': (BuildContext context) => const HomePage(),
         '/signup': (BuildContext context) => const SignUpPage(),
         '/profile': (BuildContext context) => ProfilePage(),
+        '/chat': (BuildContext context) => const ChatPage(),
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)

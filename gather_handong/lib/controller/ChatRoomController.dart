@@ -1,17 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gather_handong/model/ChatRoom.dart';
-import 'package:gather_handong/model/myUser.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-final user = FirebaseAuth.instance.currentUser;
+final myUid = FirebaseAuth.instance.currentUser!.uid;
 
-checkDuplicated(myUser clickedUser){
+class ChatRoomController {
+  static get chatroomsSnapshots => FirebaseFirestore.instance
+      .collection('chatRoom')
+      .where("users", arrayContains: myUid)
+      .snapshots();
 
-  final
-}
+  static get getChatRoom => (String chatroomId) {
+        return FirebaseFirestore.instance
+            .collection('chatRoom')
+            .doc(chatroomId);
+      };
 
-Future<List<ChatRoom>> getChatRoom async(){
-  try{
-    final snapshot =
-        await _firestore.collection('ChatRoom').doc()
+  static Stream<QuerySnapshot<Object?>> chatroomSnapshot(String chatroomId) {
+    return FirebaseFirestore.instance
+        .collection('chatroom')
+        .doc(chatroomId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
 }

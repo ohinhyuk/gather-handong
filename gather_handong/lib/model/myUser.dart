@@ -41,6 +41,7 @@ class myUser {
     // required this.aboutYou,
     required this.relation,
     required this.likes,
+    //  chat : chatRoom[]
   });
 
   myUser.fromJson(Map<String, dynamic> json) {
