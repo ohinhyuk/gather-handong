@@ -31,6 +31,8 @@ class _ButtomNavBar extends State<ButtomNavBar> {
         appState.setInitNum(i),
         if (i == 0)
           {Navigator.pushNamed(context, '/')}
+        else if (i == 1)
+          {Navigator.pushNamed(context, '/like')}
         else if (i == 2)
           {Navigator.pushNamed(context, '/chat')}
         else if (i == 3)
