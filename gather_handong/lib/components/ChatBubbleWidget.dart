@@ -19,13 +19,13 @@ class ChatBubbleWidget extends StatelessWidget {
     return (idFrom == FirebaseAuth.instance.currentUser!.uid)
         ? Container(
             child: getSenderView(
-                ChatBubbleClipper1(type: BubbleType.sendBubble),
+                ChatBubbleClipper6(type: BubbleType.sendBubble),
                 context,
                 content),
           )
         : Container(
             child: getReceiverView(
-                ChatBubbleClipper1(type: BubbleType.receiverBubble),
+                ChatBubbleClipper6(type: BubbleType.receiverBubble),
                 context,
                 content),
           );
@@ -44,7 +44,7 @@ class ChatBubbleWidget extends StatelessWidget {
         clipper: clipper,
         alignment: Alignment.topRight,
         margin: EdgeInsets.only(top: 20),
-        backGroundColor: Colors.blue,
+        backGroundColor: Theme.of(context).colorScheme.shadow,
         child: Container(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.7,

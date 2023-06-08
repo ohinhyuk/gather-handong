@@ -21,6 +21,7 @@ import 'package:gather_handong/signup.dart';
 import 'package:gather_handong/theme/theme.dart';
 import 'package:provider/provider.dart';
 
+import 'ChatList.dart';
 import 'home.dart';
 import 'login.dart';
 import 'main.dart';
@@ -43,7 +44,7 @@ class App extends StatelessWidget {
         '/': (BuildContext context) => const HomePage(),
         '/signup': (BuildContext context) => const SignUpPage(),
         '/profile': (BuildContext context) => ProfilePage(),
-        '/chat': (BuildContext context) => const ChatPage(),
+        '/chat': (BuildContext context) => const ChatList(),
         // TODO: Make currentCategory field take _currentCategory (104)
         // TODO: Pass _currentCategory for frontLayer (104)
         // TODO: Change backLayer field value to CategoryMenuPage (104)

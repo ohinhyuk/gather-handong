@@ -50,11 +50,13 @@ class _ChatInputText extends State<ChatInputText> {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).accentColor),
       child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          color: Theme.of(context).colorScheme.background,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: <Widget>[
               Flexible(
                 child: TextField(
+                  style: TextStyle(height: 1.5, fontSize: 17),
                   controller: _textController,
                   onSubmitted: _handleSubmitted,
                   decoration:

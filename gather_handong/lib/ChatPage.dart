@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/components/ButtomNavBar.dart';
 import 'package:gather_handong/components/ChatBubbleWidget.dart';
 import 'package:gather_handong/controller/ChatRoomController.dart';
 import 'package:gather_handong/model/ChatRoom.dart';
@@ -11,7 +12,9 @@ import 'package:gather_handong/model/Message.dart';
 import 'components/ChatInputText.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  String selectedChatRoomId;
+
+  ChatPage({Key? key, required this.selectedChatRoomId}) : super(key: key);
 
   @override
   _ChatPage createState() => _ChatPage();
@@ -24,10 +27,13 @@ class _ChatPage extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      bottomNavigationBar: ButtomNavBar(),
       appBar: AppBar(
         title: Text('채팅'),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
-      body: BuildListMessage("LdJMGxObpwrwYtWi6z4V"),
+      body: BuildListMessage(widget.selectedChatRoomId),
     );
   }
 }
