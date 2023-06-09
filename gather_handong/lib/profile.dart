@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gather_handong/components/ButtomNavBar.dart';
 import 'package:gather_handong/components/DarkMode.dart';
 import 'package:gather_handong/components/GridButtons.dart';
+import 'package:gather_handong/components/UserNameAgeSexBox.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 import 'package:gather_handong/main.dart';
 import 'package:gather_handong/modify.dart';
@@ -143,36 +144,51 @@ class ProfilePage extends StatelessWidget {
                                   child: const Icon(Icons.edit),
                                 ),
                               ],
-                            ))
+                            )),
+                        UserNameAgeSexBox(
+                            nickname: snapshot.data!.get('nickname'),
+                            sex: snapshot.data!.get('sex'),
+                            age: snapshot.data!.get('age'))
                       ],
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Center(
-                      child: Text(snapshot.data!.get('nickname') +
-                          snapshot.data!.get('age').toString() +
-                          snapshot.data!.get('sex')),
+                    customTitle('내가 찾는 관계'),
+                    Wrap(
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(snapshot.data!.get('relation')),
+                              ),
+                            ))
+                      ],
                     ),
-                    const Divider(thickness: 1, height: 1),
-                    const SizedBox(
-                      height: 15,
+                    customDivider(),
+                    customTitle('나의 관심사'),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: GridButtons(
+                        items: snapshot.data!.get('interest'),
+                      ),
                     ),
-                    const Text('내가 찾는 관계'),
-                    Card(
-                      child: Text(snapshot.data!.get('relation')),
-                    ),
-                    const Text('나의 관심사'),
-                    GridButtons(
-                      items: snapshot.data!.get('interest'),
-                    ),
-                    const Text('나의 소개'),
-                    GridButtons(
-                      items: snapshot.data!.get('aboutMe'),
-                    ),
-                    const Text('나의 라이프스타일'),
-                    GridButtons(
-                      items: snapshot.data!.get('lifeStyle'),
+                    customDivider(),
+                    customTitle('나의 소개'),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: GridButtons(
+                          items: snapshot.data!.get('aboutMe'),
+                        )),
+                    customDivider(),
+                    customTitle('나의 라이프스타일'),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: GridButtons(
+                        items: snapshot.data!.get('lifeStyle'),
+                      ),
                     ),
                   ],
                 ));
@@ -181,4 +197,34 @@ class ProfilePage extends StatelessWidget {
 
     // TODO: implement build
   }
+}
+
+Widget customDivider() {
+  return Column(
+    children: [
+      const SizedBox(
+        height: 15,
+      ),
+      Padding(
+        padding: EdgeInsets.only(left: 10, right: 10),
+        child: Divider(
+          thickness: 2,
+          height: 1,
+          color: CupertinoColors.systemGrey2,
+        ),
+      ),
+      const SizedBox(
+        height: 15,
+      ),
+    ],
+  );
+}
+
+Widget customTitle(String text) {
+  return Padding(
+      padding: EdgeInsets.only(left: 20),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      ));
 }

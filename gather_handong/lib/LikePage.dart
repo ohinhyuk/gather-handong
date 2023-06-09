@@ -29,7 +29,7 @@ class _LikePage extends State<LikePage> {
       appBar: AppBar(
         title: Text(
           '좋아요 페이지',
-          style: TextStyle(color: Theme.of(context).colorScheme.background),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
