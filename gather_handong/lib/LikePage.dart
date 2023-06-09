@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_handong/OtherProfile.dart';
 import 'package:gather_handong/app.dart';
 import 'package:gather_handong/components/ButtomNavBar.dart';
 import 'package:gather_handong/components/generateUniqueKey.dart';
@@ -96,7 +97,12 @@ class _LikePage extends State<LikePage> {
                                       children: [
                                         OutlinedButton(
                                           child: Text('정보 보기'),
-                                          onPressed: () => {},
+                                          onPressed: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    OtherProfile(user: doc),
+                                              )),
                                         ),
                                         SizedBox(width: 10),
                                         FilledButton(
