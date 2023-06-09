@@ -31,4 +31,30 @@ class ChatRoomController {
       .collection('chatRoom')
       .doc(chatRoom.chatRoomId)
       .set(chatRoom.toJson());
+
+  static void chatroomAdd(ChatRoom chatRoom) => FirebaseFirestore.instance
+      .collection('chatRoom')
+      .doc(chatRoom.chatRoomId)
+      .set(chatRoom.toJson());
+
+  // static Future<QuerySnapshot> getChatRoomByUsers(String uid1, String uid2) {
+  //   return FirebaseFirestore.instance
+  //       .collection('chatRoom')
+  //       .where('users', arrayContainsAny: [uid1, uid2]).get();
+  // }
+  // static Future<QuerySnapshot> getChatRoomByUsers(String uid1, String uid2) {
+  //   return FirebaseFirestore.instance
+  //       .collection('chatRoom')
+  //       .where('users', arrayContains: uid1)
+  //       .where('users', arrayContains: uid2)
+  //       .get();
+  // }
+  static Future<QuerySnapshot> getChatRoomByUsers(String uid1, String uid2) {
+    return FirebaseFirestore.instance
+        .collection('chatRoom')
+        .where('users', whereIn: [
+      [uid1, uid2],
+      [uid2, uid1]
+    ]).get();
+  }
 }

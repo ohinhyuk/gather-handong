@@ -85,7 +85,10 @@ class _ChatList extends State<ChatList> {
                           color: Theme.of(context).colorScheme.onBackground),
                     ),
                     subtitle: Text(
-                      doc['messages'][doc['messages'].length - 1]['content'],
+                      doc['messages'].length != 0
+                          ? doc['messages'][doc['messages'].length - 1]
+                              ['content']
+                          : "메세지 없음",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onBackground),
                     ),

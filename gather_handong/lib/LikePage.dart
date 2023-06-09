@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_handong/app.dart';
 import 'package:gather_handong/components/ButtomNavBar.dart';
+import 'package:gather_handong/components/generateUniqueKey.dart';
+import 'package:gather_handong/controller/ChatRoomController.dart';
 import 'package:gather_handong/controller/FirebaseController.dart';
 
 import 'ChatPage.dart';
+import 'model/ChatRoom.dart';
 
 class LikePage extends StatefulWidget {
   const LikePage({Key? key}) : super(key: key);
@@ -49,8 +52,6 @@ class _LikePage extends State<LikePage> {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       final docs = snapshot.data!.docs;
-                      print("!");
-
                       return ListView.builder(
                         itemCount: docs.length,
                         itemBuilder: (context, index) {
@@ -77,7 +78,7 @@ class _LikePage extends State<LikePage> {
                                   //       builder: (context) => ChatPage(
                                   //           selectedChatRoomId: doc['chatRoomId']),
                                   //     )),
-                                  leading: const Icon(Icons.message),
+                                  leading: const Icon(Icons.person),
                                   title: Text(
                                     doc['nickname'] + "님이 관심 ❤️을 표현하였습니다.",
                                     style: TextStyle(
@@ -87,16 +88,89 @@ class _LikePage extends State<LikePage> {
                                             .colorScheme
                                             .onBackground),
                                   ),
-                                  subtitle: Row(
-                                    children: [
-                                      FilledButton(
-                                        child: Text('정보 보기'),
-                                        onPressed: () => {},
-                                      ),
-                                      OutlinedButton(
+                                  subtitle: Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        OutlinedButton(
+                                          child: Text('정보 보기'),
                                           onPressed: () => {},
-                                          child: Text('매칭 후 대화하기'))
-                                    ],
+                                        ),
+                                        SizedBox(width: 10),
+                                        FilledButton(
+                                            onPressed: () => showDialog<String>(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          AlertDialog(
+                                                    title: const Text(
+                                                        '정말 매칭하시겠습니까?'),
+                                                    content: const Text(
+                                                        '매칭 후에는 채팅이 가능합니다!'),
+                                                    actions: <Widget>[
+                                                      OutlinedButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context,
+                                                                'Cancel'),
+                                                        child:
+                                                            const Text('아니요'),
+                                                      ),
+                                                      FilledButton(
+                                                        onPressed: () => ChatRoomController
+                                                                .getChatRoomByUsers(
+                                                                    FirebaseAuth
+                                                                        .instance
+                                                                        .currentUser!
+                                                                        .uid,
+                                                                    doc['uid'])
+                                                            .then((QuerySnapshot
+                                                                snapshot) {
+                                                          if (snapshot.docs
+                                                              .isNotEmpty) {
+                                                          } else {
+                                                            ChatRoomController
+                                                                .chatroomAdd(ChatRoom(
+                                                                    chatRoomId:
+                                                                        generateUniqueKey(),
+                                                                    users: [
+                                                                  FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser!
+                                                                      .uid,
+                                                                  doc['uid'],
+                                                                ],
+                                                                    messages: []));
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: const Text(
+                                                                    '채팅방이 생성되었습니다!'),
+                                                                action:
+                                                                    SnackBarAction(
+                                                                  label: '닫기',
+                                                                  onPressed:
+                                                                      () {
+                                                                    // Some code to undo the change.
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        }).catchError((error) {
+                                                          // 오류 처리를 위한 코드 작성
+                                                        }),
+                                                        child: const Text('예'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                            child: Text('매칭 후 대화하기'))
+                                      ],
+                                    ),
                                   )),
                             ),
                           );
