@@ -29,6 +29,7 @@ class _LikePage extends State<LikePage> {
       appBar: AppBar(
         title: Text('좋아요 페이지'),
       ),
+      bottomNavigationBar: ButtomNavBar(),
       body: FutureBuilder<DocumentSnapshot>(
           future: myProfileSnapshots,
           builder:

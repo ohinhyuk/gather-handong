@@ -23,7 +23,7 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-  int initNum = 1;
+  int initNum = 0;
 
   void setInitNum(int index) {
     initNum = index;

@@ -233,7 +233,7 @@ class _SignUpPage extends State<SignUpPage> {
 
   SimpleAutoCompleteTextField? interestAutoCompleteTextField;
 
-  int _selectedSex = 0;
+  var _selectedSex = 0;
 
   final firebaseRef = FirebaseStorage.instance.ref();
 
@@ -365,7 +365,7 @@ class _SignUpPage extends State<SignUpPage> {
                           ),
                           ToggleSwitch(
                             minWidth: 90.0,
-                            initialLabelIndex: 1,
+                            initialLabelIndex: 0,
                             cornerRadius: 20.0,
                             activeFgColor: Colors.white,
                             inactiveBgColor: Colors.grey,
@@ -382,7 +382,7 @@ class _SignUpPage extends State<SignUpPage> {
                             ],
                             onToggle: (index) {
                               _selectedSex = index!;
-                              print('switched to: $index');
+                              print('switched to: $_selectedSex');
                             },
                           ),
                         ],
