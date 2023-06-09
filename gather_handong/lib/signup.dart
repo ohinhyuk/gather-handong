@@ -275,7 +275,8 @@ class _SignUpPage extends State<SignUpPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              appState.signupSuccess();
+              // Navigator.pop(context);
             },
           ),
           title: Text(

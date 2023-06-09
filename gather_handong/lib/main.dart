@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,14 @@ class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
+  bool _signedUp = false;
+  bool get signedUp => _signedUp;
+
+  void signupSuccess() {
+    _signedUp = true;
+    notifyListeners();
+  }
+
   void addCart(Product product) {
     cart.add(product);
     notifyListeners();
@@ -111,11 +120,20 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn = true;
-      } else {
-        _loggedIn = false;
-      }
+      FirebaseFirestore.instance
+          .collection('myUsers')
+          .doc(user!.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          _signedUp = true;
+          _loggedIn = true;
+        } else {
+          _signedUp = false;
+          _loggedIn = true;
+        }
+      });
+
       notifyListeners();
     });
   }

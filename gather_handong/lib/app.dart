@@ -39,11 +39,14 @@ class App extends StatelessWidget {
       title: 'Shrine',
       initialRoute: '/login',
       routes: {
-        '/login': (BuildContext context) =>
-            appState.loggedIn ? const SignUpPage() : const LoginPage(),
+        '/login': (BuildContext context) => !appState.loggedIn
+            ? const LoginPage()
+            : !appState.signedUp
+                ? const SignUpPage()
+                : const HomePage(),
         // TODO: Change to a Backdrop with a HomePage frontLayer (104)
         '/': (BuildContext context) => const HomePage(),
-        '/signup': (BuildContext context) => const SignUpPage(),
+        // '/signup': (BuildContext context) => const SignUpPage(),
         '/profile': (BuildContext context) => ProfilePage(),
         '/chat': (BuildContext context) => const ChatList(),
         '/like': (BuildContext context) => const LikePage(),
