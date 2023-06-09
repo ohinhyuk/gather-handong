@@ -37,12 +37,17 @@ class _ChatInputText extends State<ChatInputText> {
           : users[0]
     });
 
-    print(messages);
+    List<String> userNames = [
+      ...widget.chatRoom
+          ?.get('userNames')
+          .map((username) => username.toString())
+    ];
 
     ChatRoomController.chatroomUpdate(ChatRoom(
         chatRoomId: widget.chatRoom?.get('chatRoomId'),
         users: users,
-        messages: messages));
+        messages: messages,
+        userNames: userNames));
   }
 
   @override

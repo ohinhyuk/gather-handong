@@ -39,6 +39,14 @@ class _LikePage extends State<LikePage> {
               return Text('Error: ${snapshot.error}');
             } else {
               List<dynamic> likes = snapshot.data!.get('likes') ?? [];
+              if (likes.length == 0) {
+                return Material(
+                    // Add this
+                    color: Colors.transparent,
+                    child: Center(
+                      child: Text('no one Liked yet.'),
+                    ));
+              }
               // List<String>.from(snapshot.data!['likes'] ?? []);
               return FutureBuilder<QuerySnapshot>(
                   future: FirebaseFirestore.instance
@@ -49,8 +57,17 @@ class _LikePage extends State<LikePage> {
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData) {
+                      return ListView(
+                        children: [
+                          Material(
+                              // Add this
+                              color: Colors.transparent,
+                              child: Center(
+                                child: Text('no one Liked yet.'),
+                              ))
+                        ],
+                      );
                     } else {
                       final docs = snapshot.data!.docs;
                       return ListView.builder(
@@ -133,10 +150,24 @@ class _LikePage extends State<LikePage> {
                                                                         .uid,
                                                                     doc['uid'])
                                                             .then((QuerySnapshot
-                                                                snapshot) {
+                                                                snapshot) async {
                                                           if (snapshot.docs
                                                               .isNotEmpty) {
                                                           } else {
+                                                            String? nickname = await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'myUsers')
+                                                                .doc(FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser!
+                                                                    .uid)
+                                                                .get()
+                                                                .then((snapshot) =>
+                                                                    snapshot.data()?[
+                                                                            'nickname']
+                                                                        as String?);
+
                                                             ChatRoomController
                                                                 .chatroomAdd(ChatRoom(
                                                                     chatRoomId:
@@ -148,7 +179,11 @@ class _LikePage extends State<LikePage> {
                                                                       .uid,
                                                                   doc['uid'],
                                                                 ],
-                                                                    messages: []));
+                                                                    messages: [],
+                                                                    userNames: [
+                                                                  nickname!,
+                                                                  doc['nickname']
+                                                                ]));
                                                             ScaffoldMessenger
                                                                     .of(context)
                                                                 .showSnackBar(

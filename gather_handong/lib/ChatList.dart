@@ -77,8 +77,8 @@ class _ChatList extends State<ChatList> {
                     ),
                     title: Text(
                       doc['users'][0] == myUid
-                          ? doc['users'][1] + " 님"
-                          : doc['users'][0] + " 님",
+                          ? doc['userNames'][1] + " 님"
+                          : doc['userNames'][0] + " 님",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
